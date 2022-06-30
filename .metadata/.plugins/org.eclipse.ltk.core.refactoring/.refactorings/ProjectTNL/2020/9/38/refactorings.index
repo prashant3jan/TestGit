@@ -1,0 +1,22 @@
+1599985977162	Delete element
+1599986335084	Rename resource 'display_debtor_pbk_page.jsp'
+1600001782176	Encapsulate field 'loanAccno'
+1600064138787	Delete element
+1600079221703	Rename resource 'display_debtor_pbk.jsp'
+1600085377136	Encapsulate field 'loanAccno'
+1600159638015	Encapsulate field 'debtorPbkBean'
+1600272004315	Copy file
+1600272091565	Delete element
+1600272373483	Move file
+1600272450643	Move file
+1600272457950	Delete element
+1600399262466	Delete elements
+1600407613559	Encapsulate field 'url'
+1600409881765	Rename resource 'HibernatePersistenceUnitInfo.java'
+1600426319314	Encapsulate field 'debitloanGvnByComp'
+1600426741147	Encapsulate field 'installment'
+1600510290845	Encapsulate field 'installmentList'
+1600515512697	Rename resource 'enter_mem_details.jsp'
+1600519195829	Rename resource 'enter_loan_details.jsp'
+1600519785484	Rename resource 'memAppForm.jsp'
+1600519939243	Rename resource 'memAppDetForm.jsp'

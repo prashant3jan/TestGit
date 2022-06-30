@@ -1,0 +1,11 @@
+package com.struts2.action;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
+@Entity
+public class MemberBankInfo extends AbstractMember {
+	@Column(name = "app_age", table = "member_details")
+	private Long applicantAge;
+
+}

@@ -1,0 +1,59 @@
+package com.struts2.action;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+
+import com.struts2.action.UploadManagerDao.UploadManagerDAO;
+
+public class UploadManager implements UploadManagerDAO{
+	@Override
+	public Integer saveUploadFileDetails(CustomerLoanAccount payment){
+		
+		Session session = HibernateUtil.getHibernateSession();
+		session.beginTransaction();
+		session.save(payment);
+		session.getTransaction().commit();
+	     session.close();  
+	     return null;
+	}
+	
+
+	@Override
+	public List<CustomerLoanAccount> getPaymentList(){
+		List<CustomerLoanAccount> paymentList = new ArrayList<CustomerLoanAccount>();
+		Session session = HibernateUtil.getHibernateSession();
+		session.beginTransaction();
+
+		try {
+			paymentList = session.createQuery("from CustomerLoanAccount").list();
+	      } catch(Exception e) {
+	         e.printStackTrace();
+	      }
+	      return paymentList;
+		
+	}
+	
+	public List<Installment> getInstallmentList(String loanAccno){
+		List<Installment> installmentList = new ArrayList<Installment>();
+		Session session = HibernateUtil.getHibernateSession();
+		session.beginTransaction();
+
+		try {
+			String hql = "from Installment i where i.loan.loanAccno=:loanAccno";
+			Query query = session.createQuery(hql);
+			query.setString("loanAccno", loanAccno);
+			installmentList = (List<Installment>)query.list();
+			System.out.println("install elements"+installmentList.size());
+	      } catch(Exception e) {
+	         e.printStackTrace();
+	      }
+		
+		return installmentList;
+		
+		
+	}
+
+}

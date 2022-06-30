@@ -1,0 +1,4 @@
+127.0.0.1 - - [30/Nov/2020:00:01:31 +0530] "GET / HTTP/1.1" 404 751
+0:0:0:0:0:0:0:1 - - [30/Nov/2020:00:01:31 +0530] "GET /CrunchifyRESTJerseyExample/ HTTP/1.1" 404 782
+0:0:0:0:0:0:0:1 - - [30/Nov/2020:00:05:17 +0530] "GET /CrunchifyRESTJerseyExample/crunchify/ctofservice/ HTTP/1.1" 200 157
+0:0:0:0:0:0:0:1 - - [30/Nov/2020:00:05:17 +0530] "GET /favicon.ico HTTP/1.1" 404 762

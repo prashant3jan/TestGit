@@ -1,0 +1,149 @@
+@CHARSET "ISO-8859-1";
+@page {
+    size: 21cm 29.7cm;
+    margin: 30mm 45mm 30mm 45mm;
+     /* change the margins as you want them to be. */
+}
+
+#header {
+  background-color:orange;
+  text-align:center;
+  background-position:50% 0;
+  background-repeat:repeat no-repeat;
+  height:180px;
+  width:980px;
+  border:1px solid blue;
+}
+ 
+#wrap {
+  background-color:white;
+  margin-bottom:0;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:0;
+  overflow-x:hidden;
+  overflow-y:hidden;
+  position:relative;
+  width:980px;
+}
+
+
+#float-container {
+    border: 1px solid blue;
+    padding: 10px;
+    line-height:2;
+    display: flex;
+    width: 900px;
+}
+ 
+#content {
+ 	width: 930px;
+    float: left;
+    padding: 20px;
+    border: 1px solid blue;
+    flex: 1;
+}
+#sidebar {
+   width: 45%;
+    float: right;
+    padding: 20px;
+    border: 1px solid blue;
+    flex: 1;
+}
+ 
+#footer {
+  background-color:orange;
+  background-position:50% 100%;
+  background-repeat:repeat no-repeat;
+  clear:both;
+  height:40px;
+  margin-bottom:0;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:0;
+  padding-bottom:10px;
+  padding-top:10px;
+  text-align:center;
+  width:980px;
+  text-align:center;
+}
+
+.container{
+	border:1px solid blue;
+	height:30px;
+	 max-width: fit-content;
+	clear:both; /* will extend #container vertically to contain both side floats instead of taking its height only from #center and possibly allowing the sides to protrude out the bottom.*/
+}
+.leftbox {
+	float: left;
+}
+.rightbox {
+	float: right;
+}
+.box4 {
+	padding:10px;
+	border:1px solid blue;
+	width: 910px;
+	min-height: 100px;
+	line-height:2;
+	/*overflow:hidden;*/
+	position: relative;/*align to top*/
+	display:inline-block;
+  	flex:1
+}
+
+body .site-branding {
+    border: 0;
+}
+.zui-table thead th {
+  background-color: #DDEFEF;
+  border: none;
+  color: #336B6B;
+  padding: 10px;
+  text-align: left;
+  text-shadow: 1px 1px 1px #fff;
+  white-space: nowrap;
+}
+
+
+.zui-table tbody td {
+  border-bottom: solid 1px #DDEFEF;
+  color: #333;
+  padding: 10px;
+  text-shadow: 1px 1px 1px #fff;
+  white-space: nowrap;
+}
+
+.zui-wrapper {
+  position: relative;
+}
+
+.zui-scroller {
+	
+margin-left: 145px;
+  overflow-x: scroll;
+  overflow-y: visible;
+  padding-bottom: 5px;
+  width: 750px;
+  height:300px;
+}
+
+.zui-table .zui-sticky-col {
+  border-left: solid 1px #DDEFEF;
+  border-right: solid 1px #DDEFEF;
+  left: 0;
+  position: absolute;
+  top: auto;
+  width: 135px;
+}
+.zui-table .zui-sticky-row {
+  border-top: solid 1px #DDEFEF;
+  border-bottom: solid 1px #DDEFEF;
+  top: 0;
+  position: absolute;
+  top: auto;
+  width: 700px;
+}
+
+
+

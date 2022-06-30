@@ -1,0 +1,19 @@
+package com.struts2.action;
+
+import javax.persistence.Column;
+import javax.persistence.Id;
+
+public class AbstractCustomerLoanAccount {
+	@Id
+	@Column(name = "mem_no", nullable = false)
+	private String memNum;
+
+	public String getMemNum() {
+		return memNum;
+	}
+
+	public void setMemNum(String memNum) {
+		this.memNum = memNum;
+	}
+
+}

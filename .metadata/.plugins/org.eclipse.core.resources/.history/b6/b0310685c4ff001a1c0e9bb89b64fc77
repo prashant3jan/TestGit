@@ -1,0 +1,75 @@
+package com.struts2.action;
+
+import java.util.Date;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="installment")
+public class Installment {
+	@Id
+	@GeneratedValue
+	@Column(name="install_id")
+	private int installId;
+	@Column(name = "install_amt")
+	private double installmentAmt;
+	@Column(name = "install_dt")
+	private Date installmentDt;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="loan_accno")
+	private CustomerPaymentDetails custPmtDet;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="loan_accno",  insertable="false" updateable="false")
+	private CustomerLoanDetails custLoanDet;
+
+	public CustomerLoanDetails getCustLoanDet() {
+		return custLoanDet;
+	}
+
+	public void setCustLoanDet(CustomerLoanDetails custLoanDet) {
+		this.custLoanDet = custLoanDet;
+	}
+
+	public CustomerPaymentDetails getCustPmtDet() {
+		return custPmtDet;
+	}
+
+	public void setCustPmtDet(CustomerPaymentDetails custPmtDet) {
+		this.custPmtDet = custPmtDet;
+	}
+
+	public Installment(){}
+	
+	public Installment(double _installmentAmt, Date _installmentDt ){
+		this.installmentAmt = _installmentAmt;
+		this.installmentDt = _installmentDt;
+	}
+	
+	public int getInstallId() {
+		return installId;
+	}
+
+	public void setInstallId(int installId) {
+		this.installId = installId;
+	}
+	public double getInstallmentAmt() {
+		return installmentAmt;
+	}
+	public void setInstallmentAmt(double installmentAmt) {
+		this.installmentAmt = installmentAmt;
+	}
+	public Date getInstallmentDt() {
+		return installmentDt;
+	}
+	public void setInstallmentDt(Date installmentDt) {
+		this.installmentDt = installmentDt;
+	}
+}

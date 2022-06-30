@@ -1,0 +1,123 @@
+package com.struts2.action;
+
+import java.util.List;
+import com.opensymphony.xwork2.ActionSupport;
+
+public class MemberAction extends ActionSupport {
+	private static final long serialVersionUID = 2L;
+	private Member memberBean;
+	private MemberBankInfo memberBankBean;
+	private String membership_no;
+	private List<Member> memberList;
+	private MemberManager memberManager;
+	private List<Document> documentList;
+	private List<MemberDocs> documents;
+	
+
+	public MemberAction(){
+		memberManager = new MemberManager();
+		documentList = memberManager.listDocs();
+	}
+	
+	public String execute(){
+		this.memberList = memberManager.memberList();
+		System.out.println("execute called");
+		return "success";
+	}
+	
+	public String dispMemInputForm(){
+		return "success";
+	}
+	
+	public String add(){
+		try{
+			memberManager.add(getMemberBean());
+			System.out.println("member added");
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			this.memberList = memberManager.memberList();
+			return "success";
+		}
+	
+	public String addMemBankDet(){
+		try{
+			memberBankBean=this.getMemberBankBean();
+			System.out.println("test1"+memberBankBean.get);
+			System.out.println("test2");
+			System.out.println("test3");
+			System.out.println("test4");
+			System.out.println("test5");
+			System.out.println("test6");
+			System.out.println("test7");
+			System.out.println("test8");
+			System.out.println("test9");
+			System.out.println("test10");
+		memberManager.addMemBankDet(this.getMemberBankBean());
+		System.out.println("memebr details added");
+		}catch(Exception e){
+		e.printStackTrace();
+		}
+		this.memberList = memberManager.memberList();
+		return "success";
+	}
+	
+	public String delete(){
+		try{
+		memberManager.delete(membership_no);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		this.memberList = memberManager.memberList();
+		return "success";
+	}
+	
+	
+	public List<MemberDocs> getDocuments() {
+		return documents;
+	}
+
+	public void setDocuments(List<MemberDocs> documents) {
+		this.documents = documents;
+	}
+	
+	public List<Document> getDocumentList() {
+		return documentList;
+	}
+
+	public void setDocumentList(List<Document> documentList) {
+		this.documentList = documentList;
+	}
+
+	public Member getMemberBean() {
+		return memberBean;
+	}
+
+	public void setMemberBean(Member memberBean) {
+		this.memberBean = memberBean;
+	}
+	
+	public List<Member> getMemberList() {
+		return memberList;
+	}
+
+	public void setMemberList(List<Member> memberList) {
+		this.memberList = memberList;
+	}
+
+	public String getMembership_no() {
+		return membership_no;
+	}
+
+	public void setMembership_no(String membership_no) {
+		this.membership_no = membership_no;
+	}
+
+	public MemberBankInfo getMemberBankBean() {
+		return memberBankBean;
+	}
+
+	public void setMemberBankBean(MemberBankInfo memberBankBean) {
+		this.memberBankBean = memberBankBean;
+	}
+}

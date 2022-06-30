@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy 2 elements to &apos;GradleProject/src/main/java/GradleProject&apos;&#x0D;&#x0A;- Original project: &apos;map&apos;&#x0D;&#x0A;- Destination element: &apos;GradleProject/src/main/java/GradleProject&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     DisplayMapSample.java&#x0D;&#x0A;     DisplayMapLauncher.java" description="Copy files" destination="=GradleProject/src\/main\/java&lt;GradleProject" element1="display-map/src/main/java/com/esri/samples/display_map/DisplayMapSample.java" element2="display-map/src/main/java/com/esri/samples/display_map/DisplayMapLauncher.java" files="2" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1603184156761" units="0" version="1.0"/>
+</session>

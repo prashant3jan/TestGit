@@ -1,0 +1,62 @@
+package com.struts2.action;
+
+import java.util.List;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+public class LoanManager extends HibernateUtil {
+	
+	public List<Collateral> listColl() {
+		Session session = HibernateUtil.getHibernateSession();
+		Transaction tx = session.beginTransaction();
+		List<Collateral> documents = null;
+		try {
+			
+		documents = (List<Collateral>)session.createQuery("from Collateral").list();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			tx.rollback();
+		}
+		
+		return documents;
+	}
+	
+	public List<Loan> loanList() {
+		Session session = HibernateUtil.getHibernateSession();
+		session.beginTransaction();
+		List<Loan> loanList = null;
+		try {
+			
+			loanList = (List<Loan>)session.createQuery("from Loan").list();
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		return loanList;
+	}
+	
+	public Loan add(Loan loan) {
+		
+		Session session = HibernateUtil.getHibernateSession();
+		session.beginTransaction();
+		session.saveOrUpdate(loan);
+		session.getTransaction().commit();
+		return loan;
+	}
+	
+	public void delete(String loanAccno) {
+		Session session = HibernateUtil.getHibernateSession();
+		session.beginTransaction();
+		System.out.println("loanAccno"+loanAccno);
+		Loan loan = (Loan) session.load(Loan.class, loanAccno);
+		if(null != loan) {
+			session.delete(loan);
+		}
+		session.getTransaction().commit();
+	}
+
+
+}

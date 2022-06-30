@@ -1,0 +1,68 @@
+1603691978627	Copy folder
+1603691987095	Move 'ctrac' to 'WebContent'
+1603691999387	Copy folder
+1603692017131	Copy folder
+1603692022683	Copy folder
+1603692053059	Copy folder
+1603692064211	Copy folder
+1603692084459	Copy folder
+1603692105919	Copy folder
+1603722330704	Move 'track' to 'WEB-INF'
+1603722995141	Move 'track' to 'WebContent'
+1603769100479	Move 'track' to 'WEB-INF'
+1603769119622	Move 'track' to 'WebContent'
+1603774740020	Copy folder
+1603790578938	Copy files
+1603797292070	Delete element
+1603800629134	Move compilation unit
+1603874473901	Rename type 'account_stringID'
+1603894785363	Encapsulate field 'sequence'
+1603894800504	Encapsulate field 'lastUpdateTime'
+1603894808577	Encapsulate field 'creationTime'
+1603979995093	Rename resource 'event_data_extra_id.java'
+1604032885487	Rename type 'acc_resourceId'
+1604032902712	Rename type 'acc_roleId'
+1604032916114	Rename type 'acc_geozone_sortId'
+1604032933681	Rename type 'acc_dev_transportId'
+1604033822638	Rename type 'userAcl_id'
+1604033850357	Rename type 'account_userAcl_id'
+1604033875917	Rename type 'eventData_id'
+1604033904661	Rename type 'device_groupId'
+1604033924285	Rename type 'deviceList_id'
+1604033939957	Rename type 'groupList_id'
+1604116342437	Move 'project.properties' to 'lib'
+1604121678329	Move 'project.properties' to 'WEB-INF'
+1604123905447	Move 'WEB-INF' to 'test'
+1604123925138	Move 'emailReport.jsp' to 'test'
+1604123930620	Move 'htmlWrapper.jsp' to 'test'
+1604123933945	Move 'loginFrame.jsp' to 'test'
+1604123937312	Move 'loginSession_banner.jsp' to 'test'
+1604123941637	Move 'loginSession_frame.jsp' to 'test'
+1604123944833	Move 'loginSession_mobile.jsp' to 'test'
+1604123947665	Move 'loginSession_mobileDemo.jsp' to 'test'
+1604123950368	Move 'loginSession_new.jsp' to 'test'
+1604123953252	Move 'loginSession.jsp' to 'test'
+1604124081224	Delete element
+1604124088761	Copy folder
+1604125100516	Delete element
+1604125116007	Move 'lib' to 'WEB-INF'
+1604125176785	Move 'css' to 'WEB-INF'
+1604125192660	Move 'images' to 'WEB-INF'
+1604125197425	Move 'js' to 'WEB-INF'
+1604125217378	Move 'tld' to 'WEB-INF'
+1604125229759	Move 'project.properties' to 'WEB-INF'
+1604125233882	Move 'web.xml' to 'WEB-INF'
+1604125268186	Delete element
+1604125298477	Move file
+1604125329077	Move 'emailReport.jsp' to 'WebContent'
+1604125333525	Move 'htmlWrapper.jsp' to 'WebContent'
+1604125336380	Move 'loginFrame.jsp' to 'WebContent'
+1604125338977	Move 'loginSession_banner.jsp' to 'WebContent'
+1604125342352	Move 'loginSession_frame.jsp' to 'WebContent'
+1604125346691	Move 'loginSession_mobile.jsp' to 'WebContent'
+1604125349957	Move 'loginSession_mobileDemo.jsp' to 'WebContent'
+1604125355371	Move 'loginSession_new.jsp' to 'WebContent'
+1604125358252	Move 'loginSession.jsp' to 'WebContent'
+1604125387556	Move 'project.properties' to 'WEB-INF'
+1604125397655	Delete element
+1604125401551	Delete element

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;HibernateServletContextListener.java&apos; to &apos;OpenGTS_2.6.7/src/org.opengts.db.hibernate&apos;&#x0D;&#x0A;- Original project: &apos;ProjectTNL&apos;&#x0D;&#x0A;- Destination element: &apos;OpenGTS_2.6.7/src/org.opengts.db.hibernate&apos;&#x0D;&#x0A;- Original element: &apos;com.struts2.action.HibernateServletContextListener.java&apos;" description="Copy compilation unit" destination="=OpenGTS_2.6.7/src&lt;org.opengts.db.hibernate" element1="/src&lt;com.struts2.action{HibernateServletContextListener.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1603800945597" units="1" version="1.0"/>
+</session>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://localhost:8080/ProjectNBFC/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<!-- Database connection properties - Driver, URL, user, password -->
+		<property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+		<property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:1521:orcl</property>
+		<property name="hibernate.connection.username">uat</property>
+		<property name="hibernate.connection.password">root</property>
+		 <property name="hbm2ddl.auto">update</property>
+		<property name="hibernate.mapping.precedence">class,hbm</property>
+		<!-- org.hibernate.HibernateException: No CurrentSessionContext configured! -->
+		<property name="hibernate.current_session_context_class">thread</property>
+			
+		<!-- Disable the second-level cache -->
+			
+		<property name="hibernate.cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
+		<!-- Outputs the SQL queries, should be disabled in Production -->
+		<property name="hibernate.show_sql">true</property>
+		
+		<!-- Dialect is required to let Hibernate know the Database Type, MySQL, Oracle etc
+			Hibernate 4 automatically figure out Dialect from Database Connection Metadata -->
+		<property name="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</property> 
+
+		<!-- mapping file, we can use Bean annotations too --> 
+		<mapping class="com.struts2.action.Loan" />	
+		<mapping class="com.struts2.action.Member" />
+		<mapping class="com.struts2.action.MemberBankInfo" />
+		<mapping class="com.struts2.action.CustomerLoanAccount" />
+		<mapping class="com.struts2.action.CompanyBankAccount" />
+		<mapping class="com.struts2.action.Installment" />
+		<mapping class="com.struts2.action.Document" />
+		<mapping class="com.struts2.action.MemberDocs" />
+		<mapping class="com.struts2.action.LoanDocs" />
+		<mapping class="com.struts2.action.Collateral" />
+		<mapping class="com.struts2.action.CollateralGvn" />
+			</session-factory>
+</hibernate-configuration>
+

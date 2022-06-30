@@ -1,0 +1,13 @@
+
+/* "LoginMessage" page */
+.loginMsgTable { 
+    margin-top: 50px;
+    /* width: 378px; */
+}
+
+.loginMsgCell { 
+    padding: 20px; 
+    border: solid #555555 1px; 
+    background-color: #EEEEEE; 
+    text-align: center;
+}

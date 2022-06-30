@@ -1,0 +1,6 @@
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/arch=x86_64
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/os=win32
+configDescList=org.eclipse.launchbar.core.descriptorType.default\:App,org.eclipse.launchbar.core.descriptorType.default\:DropDemo,org.eclipse.launchbar.core.descriptorType.default\:EditLoanPdf,org.eclipse.launchbar.core.descriptorType.default\:FirstPdf,org.eclipse.launchbar.core.descriptorType.default\:JSON-TO-Excel,org.eclipse.launchbar.core.descriptorType.default\:OpenGTS_2.6.7 build.xml,org.eclipse.launchbar.core.descriptorType.default\:ReadAndUsePdf,org.eclipse.launchbar.core.descriptorType.default\:springboot2-jpa-crud-example,org.eclipse.launchbar.core.descriptorType.default\:SpringBootRestApiOracleApplication,org.eclipse.launchbar.core.descriptorType.default\:Tomcat v9.0 Server at localhost,org.eclipse.launchbar.core.descriptorType.default\:UNComtrade
+eclipse.preferences.version=1
+org.eclipse.launchbar.core.descriptorType.default\:App/activeLaunchMode=run
+org.eclipse.launchbar.core.descriptorType.default\:App/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local

@@ -1,0 +1,22 @@
+1599471296442	Rename type 'Payment'
+1599485956102	Delete element
+1599490643922	Encapsulate field 'totalMonthlyPmt'
+1599572766370	Rename resource 'displayUploadResult.jsp'
+1599647883887	Encapsulate field 'installmentListNew'
+1599654679182	Rename type 'Transaction'
+1599655452753	Rename type 'BankAccount'
+1599656364437	Encapsulate field 'debitAmount'
+1599656371219	Encapsulate field 'creditAmount'
+1599899163679	Rename resource 'enter_pbk_details.jsp'
+1599900068025	Rename resource 'baseLayoutPbk.jsp'
+1599900202279	Copy file
+1599900224935	Rename resource 'baseLayoutBankPbk.jsp'
+1599900368500	Move file
+1599901294017	Rename resource 'style_pbk.css'
+1599901328844	Copy file
+1599901348409	Rename resource 'style_bank_pbk.css'
+1599901370038	Move file
+1599902281813	Rename type 'PassbookAction'
+1599902351660	Rename type 'PassbookManager'
+1599918660812	Encapsulate field 'numberOfInstallments'
+1599918666924	Encapsulate field 'paymentFrequency'

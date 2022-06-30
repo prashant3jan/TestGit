@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>GTS Custom</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>${build.home}</name>
+			<type>2</type>
+			<location>D:/opengts2.6.7/OpenGTS_2.6.7/${build.home}</location>
+		</link>
+		<link>
+			<name>${src.gts}</name>
+			<type>2</type>
+			<location>D:/opengts2.6.7/OpenGTS_2.6.7/${src.gts}</location>
+		</link>
+	</linkedResources>
+</projectDescription>

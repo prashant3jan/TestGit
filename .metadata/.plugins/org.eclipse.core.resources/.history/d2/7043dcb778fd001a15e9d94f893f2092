@@ -1,0 +1,10 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<s:actionerror/>
+<s:form action="addMemInputDet" method="post" enctype="multipart/form-data" theme="simple" >
+<div id="wrapper" >
+<h2>Promissary Note Input Page</h2><br>
+Please Enter Loan A/c No: <s:textfield name="loanBean.loanAccno"></s:textfield>
+</div>
+</s:form>

@@ -1,0 +1,70 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<s:actionerror/>
+<s:form action="addMemInputDet" method="post" enctype="multipart/form-data" theme="simple" >
+<div id="wrapper" >
+<div class="box">
+<div><h3 class="alignleft">Promissary Note </h3></div><div class="container"></div>
+</div>
+<br>
+
+<p>We <s:textfield name="promisaryBean.applicantName" /></p>
+<p>jointly & Separately Promise to Pay M/S TRIVENI NIDHI LIMITED- 11B/1A/2 Lala </p> 
+<p>Ram Narayan Lal Road, Bank Road, Katra, Allahabad or order to whom pay sum of </p>
+<p>Rs <s:textfield name="promisaryBean.loanAmount" /> with applicable interest rate as </p>
+<p>recommended as per RBI circular.</p>
+<br><br>
+
+<div class="container_noborder">
+		<div class="leftbox"><s:textfield name="promisaryBean.grntrDet"/><br>Guarantor </div>
+		<div class="rightbox"><s:file name="promisaryBean.appSign"/><br>Applicant Thumb Imp. And Sign</div>
+		<div class="centerbox"><s:file name="promisaryBean.grntrSign"/><br>Sign or Thumb Impression</div>
+</div>
+
+___________________________________________________________________________________________________________
+Receipt
+Received with thanks from Triveni Nidhi Limited Rs: ..............................
+by cash/check/D.D./through RTGS.
+Loan A/c No. ............................... Date <s:textfield name="promisaryBean.loanDate"></s:textfield>
+
+Guarantor
+Applicant Thumb Imp. & Sign
+</div>
+</s:form>
+<div class="page-break"><div><span>page break</span></div></div> 
+
+<h2>Members</h2>
+<div class="zui-wrapper">
+    <div class="zui-scroller">
+        <table class="zui-table">
+            <thead>
+                <tr>	
+                	<th class="zui-sticky-col">Loan A/c No</th>
+					<th>Applicant Name</th>
+					<th>Loan Amount</th>
+					<th>Guarantor</th>
+					<th>Sign or Thumb Impression</th>
+					<th>Applicant Thumb Impo. % Sign</th>
+					<th>Amount of Loan</th>
+					<th>Date of Loan </th>
+					<th>Delete</th>
+					</tr>
+            </thead>
+            <tbody>
+            <s:iterator value="memberList" var="member">
+				<tr>
+					<td class="zui-sticky-col"><s:property value="loanAccno"/></td>
+					<td><s:property value="applicantName" /></td>
+					<td><s:property value="loanAmount"/></td>
+					<td><s:property value="grntrDet" /></td>
+					<td><s:property value="appSign"/></td>
+					<td><s:property value="grntrSign"/></td>
+					<td><s:property value="loanDate"/></td>
+					<td><a href="memDelete?membership_no=<s:property value="memNum"/>">Delete</a></td>
+				</tr>	
+			</s:iterator>
+		</tbody>
+	</table>
+</div>
+</div>

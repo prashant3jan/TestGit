@@ -1,0 +1,124 @@
+package com.struts2.action;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.io.FileUtils;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import com.opensymphony.xwork2.ActionSupport;
+
+
+public class UploadAction extends ActionSupport {
+    private static final long serialVersionUID = 1L;
+    private UploadManager uploadManager;
+	private File fileUpload;
+	private int installId;
+	private String fileUploadContentType;
+    private String fileUploadFileName;
+    private String loanAccno;
+    private List<Installment> installmentList = new ArrayList<Installment>();
+	private List<Installment> installmentListNew  = new ArrayList<Installment>();
+	private List<CustomerPaymentDetails> paymentList =  new ArrayList<CustomerPaymentDetails>();
+  
+
+	public UploadAction(){
+    	uploadManager = new UploadManager();
+    }
+    
+    public  String getPmtDet(){
+    	System.out.println("loanAccno"+loanAccno);
+    	installmentListNew = uploadManager.getInstallmentList(loanAccno);
+    	return "success";
+    }
+
+	public String execute(){
+		paymentList = uploadManager.getPaymentList();
+		return "success";
+	}
+
+	public String excelFileUpload() throws Exception{
+		try{
+		uploadManager.excelFileUpload(fileUploadFileName);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		paymentList = uploadManager.getPaymentList();
+		return "success";
+		
+	}
+       
+    public String deleteCustInstallmnt(){
+    	try{
+    	uploadManager.deleteCustInstallmnt(installId);
+    	}catch(Exception e){
+    		e.printStackTrace();
+    	}
+    	uploadManager.getInstallmentList();
+    	return "success";
+    }
+	
+	public File getFileUpload() {
+		return fileUpload;
+	}
+	public void setFileUpload(File fileUpload) {
+		this.fileUpload = fileUpload;
+	}
+	public String getFileUploadContentType() {
+		return fileUploadContentType;
+	}
+	public void setFileUploadContentType(String fileUploadContentType) {
+		this.fileUploadContentType = fileUploadContentType;
+	}
+	public String getFileUploadFileName() {
+		return fileUploadFileName;
+	}
+	public void setFileUploadFileName(String fileUploadFileName) {
+		this.fileUploadFileName = fileUploadFileName;
+	}
+
+	public List<CustomerPaymentDetails> getPaymentList() {
+		return paymentList;
+	}
+
+	public void setPaymentList(List<CustomerPaymentDetails> paymentList) {
+		this.paymentList = paymentList;
+	}
+
+	public List<Installment> getInstallmentListNew() {
+		return installmentListNew;
+	}
+
+	public void setInstallmentListNew(List<Installment> installmentListNew) {
+		this.installmentListNew = installmentListNew;
+	}
+    public List<Installment> getInstallmentList() {
+		return installmentList;
+	}
+
+	public void setInstallmentList(List<Installment> installmentList) {
+		this.installmentList = installmentList;
+	}
+  
+    public String getLoanAccno() {
+		return loanAccno;
+	}
+
+	public void setLoanAccno(String loanAccno) {
+		this.loanAccno = loanAccno;
+	}
+
+	
+}

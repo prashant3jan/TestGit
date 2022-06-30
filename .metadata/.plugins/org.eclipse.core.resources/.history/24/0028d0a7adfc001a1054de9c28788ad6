@@ -1,0 +1,37 @@
+package com.struts2.action;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
+@Entity
+public class MemberBankInfo extends AbstractMember {
+	@Column(name = "app_age", table = "member_details")
+	private Long applicantAge;
+	@Column(name = "father_age", table = "member_details")
+	private Long fatherAge;
+	@Column(name = "mother_age", table = "member_details")
+	private Long motherAge;
+	@Column(name = "spouse_name", table = "member_details")
+	private String spouseName;
+	@Column(name = "spouse_age", table = "member_details")
+	private Long spouseAge;
+	@Column(name = "app_shop_add_with_landmark", table = "member_details")
+	private String applicantShopAddressWithLandmark;
+	@Column(name = "app_local_add_with_landmark", table = "member_details")
+	private String applicantLocalAddressWithLandmark;
+	@Column(name = "app_bank_name", table = "member_details")
+	private String appBankName;
+	@Column(name = "app_bank_branch", table = "member_details")
+	private String appBankBranch;
+	@Column(name = "app_bank_accno", table = "member_details")
+	private String appBankAccno;
+	@Column(name = "app_bank_ifsc", table = "member_details")
+	private String appBankIFSC;
+	@Column(name = "dpst_mode", table = "member_details")
+	private String depositMode;
+	@Column(name = "co_app_res_add_with_landmark", table = "member_details")
+	private String coAppResAddWithLandmark;
+	@Column(name = "co_app_mob", table = "member_details")
+	private String coAppMobile;
+
+}

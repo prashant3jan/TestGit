@@ -1,0 +1,12 @@
+127.0.0.1 - - [29/Nov/2020:21:53:35 +0530] "GET / HTTP/1.1" 404 751
+0:0:0:0:0:0:0:1 - - [29/Nov/2020:21:53:36 +0530] "GET /UserManagement/ HTTP/1.1" 404 770
+0:0:0:0:0:0:0:1 - - [29/Nov/2020:21:53:59 +0530] "GET /UserManagement/rest/UserService/users HTTP/1.1" 500 3182
+127.0.0.1 - - [29/Nov/2020:22:12:55 +0530] "GET / HTTP/1.1" 404 751
+0:0:0:0:0:0:0:1 - - [29/Nov/2020:22:12:56 +0530] "GET /UserManagement/ HTTP/1.1" 404 770
+0:0:0:0:0:0:0:1 - - [29/Nov/2020:22:13:11 +0530] "GET /UserManagement/rest/UserService/users HTTP/1.1" 500 3182
+127.0.0.1 - - [29/Nov/2020:22:18:35 +0530] "GET / HTTP/1.1" 404 751
+0:0:0:0:0:0:0:1 - - [29/Nov/2020:22:18:35 +0530] "GET /UserManagement/ HTTP/1.1" 404 770
+0:0:0:0:0:0:0:1 - - [29/Nov/2020:22:18:51 +0530] "GET /UserManagement/rest/UserService/users HTTP/1.1" 500 3356
+127.0.0.1 - - [29/Nov/2020:22:48:42 +0530] "GET / HTTP/1.1" 404 751
+0:0:0:0:0:0:0:1 - - [29/Nov/2020:22:48:42 +0530] "GET /UserManagement/ HTTP/1.1" 404 770
+0:0:0:0:0:0:0:1 - - [29/Nov/2020:23:00:11 +0530] "GET /UserManagement/ HTTP/1.1" 404 770

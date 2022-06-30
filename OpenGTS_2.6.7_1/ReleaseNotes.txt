@@ -1,0 +1,38 @@
+
+Version 2.6.7
+- NEW: Added additional status codes
+- NEW: Added additional EventData fields
+- NEW: Added PasswordHandler SHA256 password encoding option
+- NEW: Added PasswordHandler maximum password length option
+- NEW: Added support for coloring separate map route segments
+- NEW: Added support for retro-actively updating blank addresses
+- NEW: Added 'DBWhere' support for 'INLIST' exclusion
+- NEW: Added support for GISGraphy-5 reverse-geocoding
+- NEW: Added route segment color support
+- NEW: Added Geozone role-based Geozone visibility support
+- UPD: Removed "&channel=" parameter from Google Roads api
+- UPD: Updated 'CountryCode.java'
+- UPD: Changed 'DataTime.java' Day-Start option from 00:01:01 to 00:00:01
+- UPD: Removed "sort(Comparator...)" from 'OrderedSet.java' due to Java-8 conflict 
+- UPD: Increased length of Device fuelTankProfile fields
+- UPD: Increased length of Account smtpProperties field
+- UPD: Added Checksum CRC-64/ECMA-182 support
+- FIX: Fixed 'DBFactory.java' 'dumpTable' to convert BLOB fields to hex Strings
+
+-----------------------------------------------------------------------------------
+
+Project Home Page:
+    http://www.opengts.org
+
+Download Latest Version from SourceForge:
+    http://www.opengts.org
+    (older versions) https://sourceforge.net/projects/opengts/
+
+Documentation (installation/configuration, tutorials, FAQ):
+    http://www.opengts.org/FAQ.html
+    http://www.opengts.org/documentation.html
+
+GTS Enterprise:
+    http://www.geotelematic.com/gts.html
+    http://www.geotelematic.com/documentation.html
+

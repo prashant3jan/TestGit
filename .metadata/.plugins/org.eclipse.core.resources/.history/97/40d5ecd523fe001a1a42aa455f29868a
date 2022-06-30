@@ -1,0 +1,43 @@
+package com.struts2.action;
+
+import java.util.Date;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="installment")
+public class Installment extends AbstractCustomerLoanAccount {
+	@Column(name = "install_amt")
+	private double installmentAmt;
+	@Column(name = "install_dt")
+	private Date installmentDt;
+
+	public Installment(){}
+	
+	public Installment(double _installmentAmt, Date _installmentDt ){
+		this.installmentAmt = _installmentAmt;
+		this.installmentDt = _installmentDt;
+	}
+	
+	public double getInstallmentAmt() {
+		return installmentAmt;
+	}
+	public void setInstallmentAmt(double installmentAmt) {
+		this.installmentAmt = installmentAmt;
+	}
+	public Date getInstallmentDt() {
+		return installmentDt;
+	}
+	public void setInstallmentDt(Date installmentDt) {
+		this.installmentDt = installmentDt;
+	}
+
+}

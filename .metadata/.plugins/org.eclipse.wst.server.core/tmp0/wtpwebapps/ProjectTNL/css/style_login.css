@@ -1,0 +1,65 @@
+@CHARSET "ISO-8859-1";
+@page {
+    size: 21cm 29.7cm;
+    margin: 30mm 45mm 30mm 45mm;
+     /* change the margins as you want them to be. */
+}
+
+#header {
+  background-color:orange;
+  text-align:center;
+  background-position:50% 0;
+  background-repeat:repeat no-repeat;
+  height:250px;
+  width:980px;
+  border:1px solid blue;
+}
+ 
+#wrap {
+  background-color:white;
+  margin-bottom:0;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:0;
+  overflow-x:hidden;
+  overflow-y:hidden;
+  position:relative;
+  width:980px;
+}
+
+
+#float-container {
+    border: 3px solid #fff;
+    padding: 20px;
+    display: flex;
+}
+ 
+#content {
+ 	width: 100%;
+    float: left;
+    padding: 20px;
+    border: 2px solid red;
+    flex: 1;
+}
+
+ 
+#footer {
+  background-color:orange;
+  background-position:50% 100%;
+  background-repeat:repeat no-repeat;
+  clear:both;
+  height:40px;
+  margin-bottom:0;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:0;
+  padding-bottom:10px;
+  padding-top:10px;
+  text-align:center;
+  width:980px;
+  text-align:center;
+}
+
+body .site-branding {
+    border: 0;
+}

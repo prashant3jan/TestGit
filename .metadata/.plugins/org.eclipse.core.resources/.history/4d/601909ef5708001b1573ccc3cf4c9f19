@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"   
+"http://struts.apache.org/dtds/struts-2.1.dtd">  
+<struts>  
+  
+<package name="default" namespace="/" extends="struts-default, json-default">
+
+<result-types>
+	<result-type name = "tiles" class="org.apache.struts2.views.tiles.TilesResult" />
+	 <result-type name="json" class="com.googlecode.jsonplugin.JSONResult"/>
+</result-types>
+
+
+<action name="homePage" class="com.struts2.action.LoginAction" method="showHome">
+<result name="success" type="tiles">homePage</result>  
+<result name="error" type="tiles">login-error</result>  
+</action> 
+
+<action name="CMS" class="com.struts2.action.LoginAction" method="showIndex">
+<result name="success" type="tiles">index</result>  
+<result name="error" type="tiles">login-error</result>  
+</action>  
+  
+<action name="login" class="com.struts2.action.LoginAction" method="authenticate">  
+	<result name="success" type="tiles">welcome</result>  
+	<result name="error" type="tiles">login-error</result>  
+</action>
+
+<action name="ajaxCalculateLoanAmt" class="com.struts2.action.JqueryAjaxAction" method="calculateLoanAmount">
+		<result type="json" ></result>
+</action>
+
+<action name="dispMemForm"  class="com.struts2.action.MemberAction" method="execute">
+		<result name="success" type="tiles">dispMemForm</result>
+		<result name="error" type="tiles">login-error</result>
+</action>
+<action name="addMemDet" class="com.struts2.action.MemberAction" method="add">
+			<result name="success" type="tiles">addMemDet</result>
+			<result name="error" type="tiles">login-error</result>
+</action>
+
+<action name="memDelete" class="com.struts2.action.MemberAction" method="delete">
+	<result name="success" type="tiles">dispMemForm</result>
+	<result name="error" type="tiles">login-error</result>
+</action>
+
+<action name="displayBankPbkPage" class="com.struts2.action.BankPassbookAction" method="execute">
+		<result name="success" type="tiles">displayBankPbkPage</result>
+		<result name="error" type="tiles">login-error</result>  
+</action>
+<action name="commit" class="com.struts2.action.BankPassbookAction" method="addTran">
+		<result name="success" type="tiles">displayBankPbkPage</result>
+		<result name="error" type="tiles">login-error</result>  
+</action>
+
+<action name="tranDelete" class="com.struts2.action.BankPassbookAction" method="tranDelete">
+	<result name="success" type="tiles">displayBankPbkPage</result>
+	<result name="error" type="tiles">login-error</result>
+</action>
+<action name="dispLoanForm"  class="com.struts2.action.CustLoanAction" method="showLoanForm">
+		<result name="success" type="tiles">dispLoanForm</result>
+		<result name="error" type="tiles">login-error</result>
+</action>
+<action name="addLoanDet" class="com.struts2.action.CustLoanAction" method="add">
+		<result name="success" type="tiles">addLoanDet</result>
+		<result name="error" type="tiles">login-error</result>
+</action>
+
+<action name="loanDelete" class="com.struts2.action.CustLoanAction" method="loanDelete">
+	<result name="success" type="tiles">dispLoanForm</result>
+	<result name="error" type="tiles">login-error</result>
+</action>
+
+<action name="displayUploadPage" class="com.struts2.action.CustPmtAction" method="execute">
+		<result name="success" type="tiles">displayUploadPage</result>
+		<result name="error" type="tiles">login-error</result>  
+</action>
+<action name="doUpload" class="com.struts2.action.CustPmtAction" method="excelFileUpload">
+	<exception-mapping exception="com.struts2.action.CreditExceedsDebitException" result="displayUploadPage" />
+	<interceptor-ref name="defaultStack"/>
+    <interceptor-ref name="fileUpload">
+    	<param name="allowedTypes">application/vnd.ms-excel,application/ms-excel,application/x-msexcel,application/x-ms-excel,application/x-excel,application/x-dos_ms_excel,application/xls,application/x-xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</param>
+    	<param name="maximumSize">1024000</param>
+     </interceptor-ref>
+    <result name="success" type="tiles">displayUploadPage</result>
+    <result name="error" type="tiles">login-error</result>
+</action>
+<action name="enterIndivInstlmnt" class="com.struts2.action.CustPmtAction" method="saveIndivInstlmnt">
+<result name="success" type="tiles">dispInstllDet</result>
+<result name="error" type="tiles">login-error</result>
+</action>
+
+
+<action name="dispInstllDet" class="com.struts2.action.CustPmtAction" method="getInstllDet">
+		<result name="success" type="tiles">dispInstllDet</result>
+		<result name="error" type="tiles">login-error</result>  
+</action>
+<action name="installDelete" class="com.struts2.action.CustPmtAction" method="deleteInstllmnt()">
+		<result name="success" type="tiles">dispInstllDet</result>
+		<result name="error" type="tiles">login-error</result>  
+</action>
+
+<action name="displayDebtorPbkPage" class="com.struts2.action.DebtorPassbookAction" method="execute">
+		<result name="success" type="tiles">displayDebtorPbkPage</result>
+		<result name="error" type="tiles">login-error</result>  
+</action>
+<action name="addPassBookDet" class="com.struts2.action.DebtorPassbookAction" method="addPassBookDet">
+		<result name="success" type="tiles">displayDebtorPbkPage</result>
+		<result name="error" type="tiles">login-error</result>  
+</action>
+<action name="dispMemInputForm" class="com.struts2.action.MemberAction" method="dispMemInputForm">
+		<result name="success" type="tiles">dispMemInputForm</result>
+		<result name="error" type="tiles">login-error</result>  
+</action>
+<action name="addMemInputDet" class="com.struts2.action.MemberAction" method="addMemBankDet">
+			<result name="success" type="tiles">dispMemInputForm</result>
+			<result name="error" type="tiles">login-error</result>
+</action>
+<action name="memBnkInfoDelete" class="com.struts2.action.MemberAction" method="deleteMemBnkInfo">
+	<result name="success" type="tiles">dispMemInputForm</result>
+	<result name="error" type="tiles">login-error</result>
+</action>
+
+<action name="dispPromissoryNote" class="com.struts2.action.PromissaryAction" method="execute">
+		<result name="success" type="tiles">dispPromissoryNote</result>
+		<result name="error" type="tiles">login-error</result>  
+</action>
+<action name="dispThumbImprssnPage" class="com.struts2.action.ThumbImprssnAction" method="execute">
+		<result name="success" type="tiles">dispThumbImprssnPage</result>
+		<result name="error" type="tiles">login-error</result>  
+</action>
+
+
+
+</package>  
+</struts>     

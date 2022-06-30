@@ -1,0 +1,65 @@
+package com.struts2.action;
+
+import java.util.List;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
+public class MemberManager extends HibernateUtil {
+
+		public void add(Member member) {
+		
+			Session session = HibernateUtil.getHibernateSession();
+			Transaction tx = session.beginTransaction();
+			session.saveOrUpdate(member);
+			tx.commit();
+			session.close();
+		}
+			
+		public Member delete(String membership_no) {
+			Session session = HibernateUtil.getHibernateSession();
+			Transaction tx = session.beginTransaction();
+			System.out.println("membership_no"+membership_no);
+			Member member = (Member) session.load(Member.class, membership_no);
+			if(null != member) {
+				session.delete(member);
+			}
+			tx.commit();
+			session.close();
+			return member;
+		}
+
+		public List<Member> memberList() {
+			Session session = HibernateUtil.getHibernateSession();
+			Transaction tx = session.beginTransaction();
+			List<Member> memberList = null;
+			try {
+				
+				memberList = (List<Member>)session.createQuery("from Member").list();
+				
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				tx.rollback();
+			}
+			return memberList;
+		}
+		public List<Document> listDocs() {
+			Session session = HibernateUtil.getHibernateSession();
+			Transaction tx = session.beginTransaction();
+			List<Document> documents = null;
+			try {
+				
+				documents = (List<Document>)session.createQuery("from Document").list();
+				//documents = (List<Document>)session.createQuery("select a from Member a where a.document.name=:value").setParameter("value","name").list();
+			} catch (HibernateException e) {
+				e.printStackTrace();
+				tx.rollback();
+			}
+			session.getTransaction().commit();
+			return documents;
+		}
+
+
+}

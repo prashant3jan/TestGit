@@ -1,0 +1,23 @@
+1604824465792	Encapsulate field 'id'
+1604841791291	Delete element
+1604930918013	Rename resource 'Person.java'
+1604930932392	Rename resource 'PersonBean.java'
+1605068173211	Rename resource 'MyCMS.java'
+1605086388765	Rename resource 'DownloadAsPdfServlet.java'
+1605177001120	Delete element
+1605177005048	Delete element
+1605178245805	Delete elements
+1605185561193	Delete element
+1605185567792	Delete element
+1605244917367	Rename resource 'promisoryNote.js'
+1605268895998	Encapsulate field 'promisaryBean'
+1605269016918	Rename resource 'PromissaryBean.java'
+1605269240300	Rename resource 'PromissaryAction.java'
+1605269278705	Rename resource 'PromissaryManager.java'
+1605269848416	Rename resource 'promissaryNote.jsp'
+1605276849814	Encapsulate field 'promissaryList'
+1605277059925	Rename resource 'baseLayoutPromissaryNt.jsp'
+1605334325955	Rename resource 'enter_bank_pbk_details.jsp'
+1605351301544	Encapsulate field 'thumbImprssnBean'
+1605351402866	Encapsulate field 'thumbInprssnList'
+1605351408976	Encapsulate field 'thumbImprssnId'

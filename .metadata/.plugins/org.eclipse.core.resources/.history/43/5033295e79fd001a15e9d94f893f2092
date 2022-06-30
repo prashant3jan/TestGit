@@ -1,0 +1,12 @@
+package com.struts2.action;
+
+import com.opensymphony.xwork2.ActionSupport;
+
+public class PromissaryAction extends ActionSupport {
+	public String execute(){
+		this.memberList = memberManager.memberList();
+		System.out.println("execute called");
+		return "success";
+	}
+
+}

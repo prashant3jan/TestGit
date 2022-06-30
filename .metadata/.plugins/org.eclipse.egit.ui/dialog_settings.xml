@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<item value="0" key="org.eclipse.egit.ui.internal.clone.GitSelectWizardPageWizardSel"/>
+	<item value="C:\Users\a\git\blogpost-writing-csv-files\.git" key="GitSelectRepositoryPage.lastRepository"/>
+	<list key="RepositorySelectionPage.UsedUris">
+		<item value="https://github.com/alanhay/jsp-to-pdf-exporter.git"/>
+		<item value="https://github.com/rtisma/blogpost-writing-csv-files.git"/>
+		<item value="https://github.com/commonsguy/cw-advandroid.git"/>
+		<item value="https://github.com/commonsguy/cw-advandroid/tree/master/WebView/GeoWeb2/"/>
+		<item value="https://gist.github.com/a20e8fa273e7cfa37d032b8211fcf8bf.git"/>
+		<item value="https://github.com/OKFNat/UNComtrade-Java.git"/>
+	</list>
+	<list key="EGit.KnownHosts">
+		<item value="gist.github.com"/>
+		<item value="bitbucket.org"/>
+		<item value="git.eclipse.org"/>
+		<item value="github.com"/>
+	</list>
+	<section name="GitImportWizard">
+		<item value="true" key="GitProjectsImportPage.STORE_NESTED_PROJECTS"/>
+	</section>
+</section>

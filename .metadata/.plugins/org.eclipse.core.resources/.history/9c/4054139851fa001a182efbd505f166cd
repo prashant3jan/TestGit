@@ -1,0 +1,45 @@
+package com.struts2.action;
+
+import java.util.List;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+
+
+public class BankPassbookManager {
+	public List<CompanyBankAccount> list(){
+		Session session = HibernateUtil.getHibernateSession();
+		org.hibernate.Transaction tran= session.beginTransaction();
+		List<CompanyBankAccount> transactions = null;
+			try{
+				transactions = (List<CompanyBankAccount>)session.createQuery("from CompanyBankAccount").list();
+				System.out.println("present size of list"+transactions.size());
+			}catch(HibernateException e){
+				e.printStackTrace();
+				tran.rollback();
+			}
+		
+		return transactions;
+		
+	}
+	
+	public CompanyBankAccount add(CompanyBankAccount compBankAccBean){
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.save(compBankAccBean);
+		session.beginTransaction().commit();
+		return compBankAccBean;
+	}
+	
+	public CompanyBankAccount delete(int id) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		System.out.println("membership_no"+id);
+		CompanyBankAccount transaction = (CompanyBankAccount) session.load(CompanyBankAccount.class, id);
+		if(null != transaction) {
+			session.delete(transaction);
+		}
+		session.getTransaction().commit();
+		return transaction;
+	}
+
+}

@@ -1,0 +1,137 @@
+<%@taglib uri="/struts-tags" prefix="s"%><%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<s:actionerror/>
+<s:form action="addMemInputDet" method="post" enctype="multipart/form-data" theme="simple" >
+<div id="colorbox"><h3 class="para-class" >DETAILS OF MEMBERS</h3></div>
+	
+<div id="colorbox"><h3 class="para-class" >PLEASE FILL-UP THE FORM IN ENGLISH CAPITAL LETTERS</h3></div>
+		
+<div id="wrapper" >
+<div class="container_noborder" >
+  	<div  class="leftbox">Applicant Name: <s:textfield name="memberBean.applicantName" /></div>
+  	<div  class="rightbox">Applicant Age: <s:textfield name="memberBean.applicantAge" /></div>
+</div>
+<div class="container_noborder" >
+	<div class="leftbox">Father's Name: <s:textfield name="memberBean.applicantFather" /></div>
+	<div class="rightbox">Father's Age: <s:textfield name="memberBean.fatherAge" /></div>
+</div>
+<div class="container_noborder" >
+<div class="leftbox">Mother's Name: <s:textfield name="memberBean.applicantMother" /></div>
+<div class="rightbox">Mother's Age: <s:textfield name="memberBean.motherAge" /></div>
+</div>
+<div class="container_noborder">
+<div class="leftbox">Spouse(Wife/Husband) Name: <s:textfield name="memberBean.spouseName" /></div>
+<div class="rightbox">Spouse Age: <s:textfield name="memberBean.spouseAge" /></div>
+</div>
+
+<div class="container_noborder">
+<div class="leftbox">SHOP NAME AND ADDRESS WITH THE LANDMARK <s:textfield name="memberBean.applicantShopAddressWithLandmark" /></div>
+<div class="leftbox">RESIDENTIAL ADDRESS WITH THE LANDMARK <s:textfield name="memberBean.applicantResAddressWithLandmark" /></div>
+<div class="leftbox">LOCAL ADDRESS WITH THE LANDMARK <s:textfield name="memberBean.applicantLocalAddressWithLandmark" /></div>
+</div>
+
+<div  class="container_noborder">
+	<div class="leftbox">BANK NAME <s:textfield name="memberBean.appBankName" /></div>
+	<div class="rightbox">BRANCH NAME <s:textfield name="memberBean.appBankBranch" /></div>
+</div>
+		
+<div class="container_noborder">
+	<div class="leftbox">ACCOUNT NUMBER<s:textfield name="memberBean.appBankAccno" /></div>
+	<div class="rightbox">IFSC CODE<s:textfield name="memberBean.appBankIFSC" /></div>
+</div>
+<div  class="container_noborder">
+ <div class="leftbox"> MEMBERSHIP NO. <s:textfield name="memberBean.memNum" /></div>
+ <div class="rightbox"> PAYMENT MODE  <s:textfield name="memberBean.memDate" /></div>
+ </div>
+ <div  class="container_noborder">
+<div class="leftbox">APPLICANT MO<s:textfield name="memberBean.applicantMobile" /></div>
+<div class="rightbox">CO-APPLICANT MO<s:textfield name="memberBean.coAppMobile" /></div>
+</div>
+<div  class="container_noborder">
+<div class="leftbox">CO-APPLICANT RESIDENTIAL ADDRESS WITH LANDMARK: <s:textfield name="memberBean.coAppResAddWithLandmark" /></div>
+</div>
+<div  class="container_noborder">
+<div class="leftbox">APPLICANT SIGNATURE<s:textfield name="memberBean.appSign" /></div>
+<div class="rightbox"><s:submit value="Add Member" align="center"  /></div>
+</div>
+</s:form method="addMemDet">
+<div class="page-break"><div><span>page break</span></div></div> 
+
+<h2>Members</h2>
+<div class="zui-wrapper">
+    <div class="zui-scroller">
+        <table class="zui-table">
+            <thead>
+                <tr>	
+                	<th class="zui-sticky-col">Membership No</th>
+					<th>Membership Dt</th>
+					<th>Applicant Name</th>
+					<th>D.O.B.</th>
+					<th>Sex</th>
+					<th>Father's/Husband's Name</th>
+					<th>Mother's Name</th>
+					<th>Occupation</th>
+					<th>Present Address</th>
+					<th>City</th>
+					<th>State</th>
+					<th>Pin</th>
+					<th>Applicant PAN</th>
+					<th>Applicant Mobile</th>
+					<th>Nominee Name</th>
+					<th>Nominee Age</th>
+					<th>Reln wth Nominee</th>
+					<th>Nominee Address</th>
+					<th>Member Fee(Fig)</th>
+					<th>Membership Fee(words)</th>
+					<th>Member image</th>
+					<th>Docs Given</th>
+					<th>Authorized Signatory</th>
+					<th>Applicant Signature</th>
+					<th>Member Sign</th>
+					<th>Guarantor Detail</th>
+					<th>Guarantor Sign</th>
+					<th>Employee Sign</th>
+					<th>Delete</th>
+					</tr>
+            </thead>
+            <tbody>
+            <s:iterator value="memberList" var="member">
+				<tr>
+					<td class="zui-sticky-col"><s:property value="memNum"/></td>
+					<td><s:date name="memDate" format="dd/MM/yyyy" /></td>
+					<td><s:property value="applicantName"/></td>
+					<td><s:date name="applicantDob" format="dd/MM/yyyy" /></td>
+					<td><s:property value="applicantSex"/></td>
+					<td><s:property value="applicantFather"/></td>
+					<td><s:property value="applicantMother"/></td>
+					<td> <s:property value="applicantOccupation"/> </td>
+					<td><s:property value="applicantAddress"/></td>
+					<td><s:property value="applicantCity"/></td>
+					<td><s:property value="applicantState"/></td>
+					<td><s:number name="applicantPin" /></td>
+					<td><s:property value="applicantPan"/></td>
+					<td><s:property value="applicantMobile"/></td>
+					<td><s:property value="nomineeName"/></td>
+					<td><s:number name="nomineeAge" /> </td>
+					<td><s:property value="relnWithNominee"/></td>
+					<td><s:property value="nomineeAddress"/></td>
+					<td><s:property value="memFeeFig"/></td>
+					<td><s:property value="memFeeWords"/></td>
+					<td><s:property value="memImage" /></td>  
+					<td><s:property value="documents"/></td>
+					<td><s:property value="authSigntry"/></td>
+					<td><s:property value="appSign"/></td>
+					<td><s:property value="memSign"/></td>
+					<td><s:property value="grntrDet"/></td>
+					<td><s:property value="grntrSign"/></td>
+					<td><s:property value="empSign"/></td>
+					<td><a href="memDelete?membership_no=<s:property value="memNum"/>">Delete</a></td>
+				</tr>	
+			</s:iterator>
+		</tbody>
+	</table>
+</div>
+</div>
+
+

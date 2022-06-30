@@ -1,0 +1,20 @@
+1598177344729	Delete element
+1598177348954	Delete element
+1598189826316	Rename compilation unit 'Collateral.java'
+1598247267953	Encapsulate field 'collGvn'
+1598247793890	Encapsulate field 'collGvnList'
+1598268736195	Encapsulate field 'member'
+1598420449032	Encapsulate field 'loanDocs'
+1598423654488	Delete element
+1598429280991	Copy file
+1598429308373	Rename resource 'baseLayoutLoan.jsp'
+1598429331647	Move file
+1598431555356	Copy file
+1598431575618	Rename resource 'style_loan.css'
+1598431582743	Move file
+1598433692314	Delete element
+1598433795515	Rename type 'LoanDetailsDao'
+1598437741073	Encapsulate field 'loanList'
+1598437961749	Delete element
+1598526064348	Delete element
+1598526307938	Delete element

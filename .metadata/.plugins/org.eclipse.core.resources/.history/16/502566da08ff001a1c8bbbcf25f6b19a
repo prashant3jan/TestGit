@@ -1,0 +1,267 @@
+package com.struts2.action;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.io.FileUtils;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import com.opensymphony.xwork2.ActionSupport;
+
+
+public class UploadAction extends ActionSupport {
+    private static final long serialVersionUID = 1L;
+    private UploadManager uploadManager;
+	private File fileUpload;
+	private String fileUploadContentType;
+    private String fileUploadFileName;
+    private List<Installment> installmentList = new ArrayList<Installment>();
+    public List<Installment> getInstallmentList() {
+		return installmentList;
+	}
+
+	public void setInstallmentList(List<Installment> installmentList) {
+		this.installmentList = installmentList;
+	}
+
+	private List<Installment> installmentListNew  = new ArrayList<Installment>();
+;
+   
+
+	private List<CustomerPaymentDetails> paymentList =  new ArrayList<CustomerPaymentDetails>();
+    private String loanAccno;
+    
+    public String getLoanAccno() {
+		return loanAccno;
+	}
+
+	public void setLoanAccno(String loanAccno) {
+		this.loanAccno = loanAccno;
+	}
+
+	public UploadAction(){
+    	uploadManager = new UploadManager();
+    }
+    
+    public  String getPmtDet(){
+    	System.out.println("loanAccno"+loanAccno);
+    	installmentListNew = uploadManager.getInstallmentList(loanAccno);
+    	return "success";
+    }
+
+	public String displayUploadPage(){
+		paymentList = uploadManager.getPaymentList();
+		return "success";
+	}
+
+	public String excelFileUpload() throws Exception{
+		String excelFilePath = null;		
+		FileInputStream inputStream = null;
+		XSSFWorkbook xssfworkbook = null;
+    	/*steps for uploading a file*/
+		excelFilePath=getText("upload.file.path") + fileUploadFileName;
+		System.out.println("excelFilePath"+excelFilePath);
+    	File fileToCreate = new File(excelFilePath);
+        try {
+            FileUtils.copyFile(fileUpload, fileToCreate);
+        } catch (IOException ex) {
+            System.out.println("Couldn't save file: " + ex.getMessage());
+        }
+        /*steps for uploading payment  data into the database*/
+        
+        try {
+            inputStream = new FileInputStream(excelFilePath);
+            xssfworkbook = new XSSFWorkbook(inputStream);
+            XSSFSheet xssfSheet = xssfworkbook.getSheetAt(0);
+            Map<Integer, Date> map = new LinkedHashMap<Integer, Date>();
+            XSSFSheet xssfsheet = xssfworkbook.getSheetAt(0);
+            XSSFRow row = xssfsheet.getRow(0);
+            int colNum = row.getLastCellNum();
+            int totcolZeroBased = colNum-1;
+            int monthlyPayment = 0;
+            System.out.println("Total Number of Columns in the excel is : "+colNum);
+            int rowNum = xssfsheet.getLastRowNum()+1;
+            System.out.println("Total Number of Rows in the excel is : "+rowNum);
+            Iterator<Row> rowIterator = xssfSheet.iterator();
+            Row firstRow = xssfsheet.getRow(0);
+            Iterator<Cell> cellIterator = firstRow.cellIterator();
+            while(cellIterator.hasNext()){
+            	Cell nextCell = cellIterator.next();
+            	int columnIndex = nextCell.getColumnIndex();
+            	if (columnIndex == 0) {
+            		System.out.println("columnIndex"+columnIndex);
+            		continue;
+				} else if (columnIndex == 1) {
+					System.out.println("columnIndex"+columnIndex);
+					continue;
+				} else if (columnIndex == 2) {
+					System.out.println("columnIndex"+columnIndex);
+					continue;
+				} else if (columnIndex == 3) {
+					System.out.println("columnIndex"+columnIndex);
+					continue;
+				} else if (columnIndex == 4) {
+					System.out.println("columnIndex"+columnIndex);
+					continue;
+				} else if (columnIndex == 5) {
+					System.out.println("columnIndex"+columnIndex);
+					continue;
+				} else if (columnIndex == 6) {
+					System.out.println("columnIndex"+columnIndex);
+					continue;
+				} else if (columnIndex == totcolZeroBased) {
+					System.out.println("columnIndex"+columnIndex);
+					continue;
+				} else {
+				String paymentDate = nextCell.getStringCellValue();
+				DateTimeFormatter formatter_1 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+			    LocalDate local_paymentDate = LocalDate.parse(paymentDate, formatter_1);
+			    Date paymentDate_formatted = new LocalDateAttributeConverter().convertToDatabaseColumn(local_paymentDate);
+			    System.out.println("paymentDate_formatted "+paymentDate_formatted);
+			    //installmentDateList.add(convertedDate);
+			    map.put(columnIndex, paymentDate_formatted);
+			    System.out.println("map.size"+map.size());
+				}
+            }
+            while (rowIterator.hasNext()) {
+            	Row nextRow = rowIterator.next();
+            	if(nextRow.getRowNum()==0){
+            	       continue; //just skip the rows if row number is 0 
+            	}
+                Iterator<Cell> cellIterator1 = nextRow.cellIterator();
+            	CustomerPaymentDetails payment  = new CustomerPaymentDetails();
+            	CustomerLoanDetails loan = new CustomerLoanDetails();
+                while (cellIterator1.hasNext()) {
+                	Cell nextCell = cellIterator1.next();
+                    int columnIndexNew = nextCell.getColumnIndex();
+                    if (columnIndexNew == 0) {
+						String weeklyDue = nextCell.getStringCellValue();
+						System.out.println("columnIndexNew "+columnIndexNew);
+						System.out.println("weeklyDue"+weeklyDue);
+						payment.setWeeklyDue(weeklyDue);
+					} else if (columnIndexNew == 1) {
+						nextCell.setCellType(Cell.CELL_TYPE_STRING);
+						String membershipNumber = nextCell.getStringCellValue();
+						System.out.println("columnIndex "+columnIndexNew);
+						System.out.println("membershipNumber"+membershipNumber);
+						Member member = new Member();
+						member.setMemNum(membershipNumber);
+						payment.setMember(member);
+					} else if (columnIndexNew == 2) {
+						String applicantName = nextCell.getStringCellValue();
+						System.out.println("columnIndexNew "+columnIndexNew);
+						System.out.println("memberName"+applicantName);
+						payment.setLoanMemName(applicantName);
+					} else if (columnIndexNew == 3) {
+						int loanAmountgiven = (int)nextCell.getNumericCellValue();
+						System.out.println("columnIndexNew"+columnIndexNew);
+						System.out.println("loanAmountgiven"+loanAmountgiven);
+						payment.setDebitloanGvnByComp(loanAmountgiven);
+					} else if (columnIndexNew == 4) {
+						int totAmountReceived = (int)nextCell.getNumericCellValue();
+						System.out.println("columnIndexNew"+columnIndexNew);
+						System.out.println("totAmountReceived"+totAmountReceived);
+						payment.setCreditPmtGvnByCust(totAmountReceived);
+					} else if (columnIndexNew == 5) {
+						String dateOfLoan = nextCell.getStringCellValue();
+						System.out.println("columnIndexNew"+columnIndexNew);
+						DateTimeFormatter formatter_2 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+					    LocalDate local_date_4 = LocalDate.parse(dateOfLoan, formatter_2);
+					    Date dateOfLoan_formatted = new LocalDateAttributeConverter().convertToDatabaseColumn(local_date_4);
+					    System.out.println("dateOfLoan_formatted"+dateOfLoan_formatted);
+					    payment.setDateOfLoan(dateOfLoan_formatted); 
+					} else if (columnIndexNew == 6) {
+						String loanAccNo = nextCell.getStringCellValue();
+						System.out.println("columnIndex"+columnIndexNew);
+						System.out.println("loanAccountNumber"+loanAccNo);
+						payment.setLoanAccno(loanAccNo);
+					} else if (columnIndexNew == totcolZeroBased) {
+						System.out.println("columnIndexNew"+columnIndexNew);
+						/* do nothing as last column is a derived column*/continue;
+					} else {
+						Installment installment = new Installment();
+						int instlAmtRcvd = (int)nextCell.getNumericCellValue();
+						monthlyPayment +=instlAmtRcvd;
+						System.out.println("columnIndexNew"+columnIndexNew);
+						System.out.println("instlAmtRcvd"+instlAmtRcvd);
+						installment.setInstallmentAmt(instlAmtRcvd);
+						Date installmentDate = map.get(columnIndexNew);
+						System.out.println("installmentDate"+installmentDate);
+						installment.setInstallmentDt(installmentDate);
+						installmentList.add(installment);
+					}         
+                }
+                payment.setInstallmentList(installmentList);
+                payment.setMonthStartDate(map.get(7));
+                int size = map.size();
+                int value = size+7;
+                int second_last_value= size+6;
+                for(int  i=7; i<value; i++){
+                System.out.println("map.valueeeeeeeeeeeeeee "+map.get(i));}
+                payment.setMonthEndDate(map.get(second_last_value));
+                payment.setTotalMonthlyPmt(monthlyPayment);
+                UploadManager uploadManager = new UploadManager();
+            	uploadManager.saveUploadFileDetails(payment);
+            }
+            UploadManager uploadManager = new UploadManager();
+            paymentList = uploadManager.getPaymentList();
+        }catch (IOException ex1) {
+            System.out.println("Error reading file");
+            ex1.printStackTrace();
+        } finally{
+        	 inputStream.close();
+        }
+        return "success";
+	}
+       
+    
+	
+	public File getFileUpload() {
+		return fileUpload;
+	}
+	public void setFileUpload(File fileUpload) {
+		this.fileUpload = fileUpload;
+	}
+	public String getFileUploadContentType() {
+		return fileUploadContentType;
+	}
+	public void setFileUploadContentType(String fileUploadContentType) {
+		this.fileUploadContentType = fileUploadContentType;
+	}
+	public String getFileUploadFileName() {
+		return fileUploadFileName;
+	}
+	public void setFileUploadFileName(String fileUploadFileName) {
+		this.fileUploadFileName = fileUploadFileName;
+	}
+
+	public List<CustomerPaymentDetails> getPaymentList() {
+		return paymentList;
+	}
+
+	public void setPaymentList(List<CustomerPaymentDetails> paymentList) {
+		this.paymentList = paymentList;
+	}
+
+	public List<Installment> getInstallmentListNew() {
+		return installmentListNew;
+	}
+
+	public void setInstallmentListNew(List<Installment> installmentListNew) {
+		this.installmentListNew = installmentListNew;
+	}
+
+	
+}

@@ -1,0 +1,15 @@
+package com.struts2.action;
+
+import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
+public class CustPmtManagerDao {
+
+public interface UploadManagerDAO{
+	Integer saveUploadFileDetails(CustomerPaymentDetails payment);
+	List<CustomerPaymentDetails> getPaymentList();
+}
+}

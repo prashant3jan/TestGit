@@ -1,0 +1,32 @@
+1600604892046	Copy file
+1600604924954	Rename resource 'baseLayoutMem.jsp'
+1600604935512	Move file
+1600604993192	Copy file
+1600605006589	Rename resource 'style_mem.css'
+1600605013777	Move file
+1600748293553	Rename compilation unit 'MemberAddressBankInfo.java'
+1600766539449	Encapsulate field 'memberBankBean'
+1600836656016	Copy file
+1600836690706	Rename resource 'baseLayoutInputMem.jsp'
+1600836823963	Copy file
+1600836846780	Rename resource 'baseLayoutPromissoryNt.jsp'
+1600836955162	Rename resource 'style_input_mem.css'
+1600836966853	Move file
+1600836970172	Move file
+1600840546933	Copy file
+1600840558539	Rename resource 'promissaryNoteInput.jsp'
+1600841098185	Move file
+1600850551095	Delete element
+1600855305082	Encapsulate field 'memberBankInfoList'
+1600859682887	Rename type 'Loan'
+1600860104472	Rename type 'LoanDetails'
+1600860167482	Rename type 'CustomerLoanAccount'
+1600864556668	Delete element
+1600864563536	Delete element
+1600870011984	Rename type 'LoanAction'
+1600870447000	Encapsulate field 'custLoanList'
+1600951036167	Rename resource 'baseLayoutPromissaryNt.jsp'
+1600951155374	Rename resource 'style_promissary_nt.css'
+1601020675196	Rename resource 'upload_payment_excel.jsp'
+1601022584273	Rename resource 'display_pmt_det.jsp'
+1601030488149	Rename resource 'displayCustInstallDet.jsp'

@@ -1,0 +1,75 @@
+/**
+ * 
+ */
+$("#fileUpload").on('change', function () {
+		alert("here");
+        if (typeof (FileReader) != "undefined") {
+
+            var image_holder = $("#image-holder");
+            image_holder.empty();
+
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $("<img />", {
+                    "src": e.target.result,
+                    "class": "thumb-image"
+                }).appendTo(image_holder);
+
+            }
+            image_holder.show();
+            reader.readAsDataURL($(this)[0].files[0]);
+        } else {
+            alert("This browser does not support FileReader.");
+        }
+    });
+$("#inputFile").change(function () {
+    readURL(this);
+});
+function previewFile(input){
+	alert("here");
+    var file = $("input[type=file]").get(0).files[0];
+    alert("file");
+
+    if(file){
+    	alert("inside if");
+        var reader = new FileReader();
+        alert("reader");
+        reader.onload = function(){
+            $("#previewSig1").attr("src", reader.result);
+        }
+
+        reader.readAsDataURL(file);
+    }
+}
+function previewFile(input){
+	alert("here");
+    var file = $("input[type=file]").get(0).files[0];
+    alert("file");
+
+    if(file){
+    	alert("inside if");
+        var reader = new FileReader();
+        alert("reader");
+        reader.onload = function(){
+            $("#previewSig2").attr("src", reader.result);
+        }
+
+        reader.readAsDataURL(file);
+    }
+}
+function previewFile(input){
+	alert("here");
+    var file = $("input[type=file]").get(0).files[0];
+    alert("file");
+
+    if(file){
+    	alert("inside if");
+        var reader = new FileReader();
+        alert("reader");
+        reader.onload = function(){
+            $("#previewSig3").attr("src", reader.result);
+        }
+
+        reader.readAsDataURL(file);
+    }
+}

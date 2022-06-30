@@ -1,0 +1,67 @@
+<!-- 
+===============================================================================
+Project: OpenGTS - Open GPS Tracking System
+URL    : http://www.opengts.org
+File   : build_custom.xml
+===============================================================================
+-->
+
+<!-- Copyright 2007-2020 GeoTelematic Solutions, Inc. -->
+<project name="GTS Custom" basedir=".">
+
+  <!-- ======================================================================== -->
+
+  <!-- optional custom -->
+  <available file="${src.gts}/org/opengts/custom" type="dir" property="exists.customSrc"/>
+
+  <!-- ======================================================================== -->
+
+  <target name="custom" depends="custom.jar,customtrack.jar"/>
+
+  <!-- ======================================================================== -->
+
+  <!-- Target: custom.jar -->
+  <target name="custom.jar" 
+    if="exists.customSrc"
+    depends="prepare,gtsdb,custom.compile"
+    description="Genera custom targets">
+    <jar jarfile="${build.lib}/custom.jar">
+        <fileset dir="${build.home}">
+            <include name="org/opengts/custom/gts/*.class"/>
+            <include name="org/opengts/custom/gts/*.properties"/>
+        </fileset>
+    </jar>
+  </target>
+
+  <!-- Target: custom.compile -->
+  <target name="custom.compile" depends="prepare,gtsdb" 
+    if="exists.customSrc"
+    description="Compile GTS Custom">
+    <echo message="Compiling GTS Custom ..."/>
+    <javac srcdir="${src.gts}"
+        includeAntRuntime="false"
+        source="${compiler.source}"
+        target="${compiler.target}"
+        destdir="${build.home}"
+        debug="${compile.debug}"
+        nowarn="${compile.nowarn}"
+        deprecation="${compile.deprecation}"
+        optimize="${compile.optimize}">
+        <compilerarg compiler="${compiler.compiler}" value="${compile.Xlint}"/>
+        <classpath refid="compile.classpath"/>
+        <include name="org/opengts/custom/gts/StartupInit.java"/>
+    </javac>
+  </target>
+
+  <!-- ======================================================================== -->
+
+  <!-- Target: customtrack.jar -->
+  <target name="customtrack.jar" 
+    if="exists.customSrc"
+    description="Track custom targets">
+    <echo message="Skipping Track Custom build ..."/>
+  </target>
+
+  <!-- ======================================================================== -->
+
+</project>

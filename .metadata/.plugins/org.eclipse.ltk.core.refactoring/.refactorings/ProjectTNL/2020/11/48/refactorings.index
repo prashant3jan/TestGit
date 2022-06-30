@@ -1,0 +1,5 @@
+1606046963743	Encapsulate field 'base64AppImage'
+1606047175092	Encapsulate field 'base64MemSign'
+1606047242355	Encapsulate field 'base64GrntrSign'
+1606047328427	Encapsulate field 'base64EmpSign'
+1606047600292	Encapsulate field 'custLoanBeanDto'

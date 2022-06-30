@@ -1,0 +1,117 @@
+package com.struts2.action;
+
+import java.util.List;
+
+import com.opensymphony.xwork2.ActionSupport;
+
+public class CustomerLoanAction extends ActionSupport {
+	private static final long serialVersionUID = 2L;
+	private LoanManager loanManager;
+	private MemberManager memberManager;
+	private CustomerLoanDetails custLoanBean;
+	private List<CustomerLoanDetails> custLoanList;
+	private List<Document> documentList;
+	private List<Collateral>collList;
+	private List<LoanDocs> documents;
+	private List<CollateralGvn> collGvnList;
+	private String loanAccno; 
+	
+	public CustomerLoanAction(){
+		loanManager = new LoanManager();
+		memberManager = new MemberManager();
+		//collList = loanManager.listColl();
+		
+	}
+	
+	public String showLoanForm(){
+		System.out.println("before colllist");
+		collList = loanManager.listColl();
+		System.out.println("after colllist");
+		custLoanList= loanManager.loanList();
+		System.out.println("after listdocs");
+		documentList = memberManager.listDocs();
+		return "success";
+	}
+	
+	public String add(){
+		//member.getMemNum());
+		try{
+			loanManager.add(custLoanBean);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			custLoanList=loanManager.loanList();
+			collList = loanManager.listColl();
+			documentList = memberManager.listDocs();
+			return "success";
+		}
+	
+	public String loanDelete(){
+		try{
+		loanManager.delete(loanAccno);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		this.setCustLoanList(loanManager.loanList());
+		collList = loanManager.listColl();
+		documentList = memberManager.listDocs();
+		return "success";
+	}
+	
+	public List<Collateral> getCollList() {
+		return collList;
+	}
+
+	public void setCollList(List<Collateral> collList) {
+		this.collList = collList;
+	}
+
+	public CustomerLoanDetails getCustLoanBean() {
+		return custLoanBean;
+	}
+
+	public void setCustLoanBean(CustomerLoanDetails custLoanBean) {
+		this.custLoanBean = custLoanBean;
+	}
+
+	public List<Document> getDocumentList() {
+		return documentList;
+	}
+
+	public void setDocumentList(List<Document> documentList) {
+		this.documentList = documentList;
+	}
+
+	public List<LoanDocs> getDocuments() {
+		return documents;
+	}
+
+	public void setDocuments(List<LoanDocs> documents) {
+		this.documents = documents;
+	}
+
+	public List<CollateralGvn> getCollGvnList() {
+		return collGvnList;
+	}
+
+	public void setCollGvnList(List<CollateralGvn> collGvnList) {
+		this.collGvnList = collGvnList;
+	}
+
+	public String getLoanAccno() {
+		return loanAccno;
+	}
+
+	public void setLoanAccno(String loanAccno) {
+		this.loanAccno = loanAccno;
+	}
+
+	public List<CustomerLoanDetails> getCustLoanList() {
+		return custLoanList;
+	}
+
+	public void setCustLoanList(List<CustomerLoanDetails> custLoanList) {
+		this.custLoanList = custLoanList;
+	}
+
+}

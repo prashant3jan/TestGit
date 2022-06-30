@@ -1,0 +1,359 @@
+package com.struts2.action;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.JoinColumn;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+
+@Entity
+@Table(name = "member")
+public class Member extends AbstractMember{
+	@Temporal(TemporalType.DATE)
+	@Column(name = "mem_dt")
+	private Date memDate;
+	@Column(name = "mem_image")
+	private File memImage;
+	@Column(name = "app_name")
+	private String applicantName;
+	@Temporal(TemporalType.DATE)
+	@Column(name = "app_dob")
+	private Date applicantDob;
+	@Column(name = "app_sex")
+	private String applicantSex;
+	@Column(name = "app_father")
+	private String applicantFather;
+	@Column(name = "app_mother")
+	private String applicantMother;
+	@Column(name = "app_occptn")
+	private String applicantOccupation;
+	@Column(name = "app_res_add_with_landmark")
+	private String applicantResAddressWithLandmark;
+	@Column(name = "app_city")
+	private String applicantCity;
+	@Column(name = "app_state")
+	private String applicantState;
+	@Column(name = "app_pin")
+	private Integer applicantPin;
+	@Column(name = "app_pan")
+	private String applicantPan;
+	@Column(name = "app_mob")
+	private String applicantMobile;
+	@Column(name = "nom_name")
+	private String nomineeName;
+	@Column(name = "nom_age")
+	private Integer nomineeAge;
+	@Column(name = "nom_rel")
+	private String relnWithNominee;
+	@Column(name = "nom_add")
+	private String nomineeAddress;
+	@Column(name = "memfee_fig")
+	private String memFeeFig;
+	@Column(name = "memfee_words")
+	private String memFeeWords;
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "mem_no")
+	private List<MemberDocs> documents = new ArrayList<MemberDocs>();
+	@Column(name = "auth_signtry")
+	private String authSigntry;
+	@Column(name = "app_sign")
+	private String appSign;
+	@Column(name = "mem_sign")
+	private File memSign;
+	@Column(name = "grntr_det")
+	private String grntrDet;
+	@Column(name = "grntr_sign")
+	private File grntrSign;
+	@Column(name = "emp_sign")
+	private File empSign;
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "mem_no")
+	private List<Loan> loanList = new ArrayList<Loan>();
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "mem_no")
+	private List<CustomerLoanAccount> paymentList = new ArrayList<CustomerLoanAccount>();
+
+	public Member() {
+	}
+
+	public Member(Date _memDate, File _memImage, String _applicantName, 
+			Date _applicantDob, String _applicantSex, String _applicantFather, String _applicantMother,
+			String _applicantOccupation, String _applicantResAddressWithLandmark,
+			String _applicantCity, String _applicantState, Integer _applicantPin,
+			String _applicantPan,
+			String _applicantMobile, String _nomineeName, Integer _nomineeAge, String _relnWithNominee,
+			String _nomineeAddress, String _memFeeFig, String _memFeeWords, List<MemberDocs> _documents,
+			String _authSigntry, String _appSign, File _memSign, String _grntrDet, File _grntrSign, File _empSign,
+			List<Loan> _loanList,List<CustomerLoanAccount> _paymentList) {
+		this.memDate = _memDate;
+		this.memImage = _memImage;
+		this.applicantName = _applicantName;
+		this.applicantDob = _applicantDob;
+		this.applicantSex = _applicantSex;
+		this.applicantFather = _applicantFather;
+		this.applicantMother = _applicantMother;
+		this.applicantOccupation = _applicantOccupation;
+		this.applicantResAddressWithLandmark = _applicantResAddressWithLandmark;
+		this.applicantCity = _applicantCity;
+		this.applicantState = _applicantState;
+		this.applicantPin = _applicantPin;
+		this.applicantPan = _applicantPan;
+		this.applicantMobile = _applicantMobile;
+		this.nomineeName = _nomineeName;
+		this.nomineeAge = _nomineeAge;
+		this.relnWithNominee = _relnWithNominee;
+		this.nomineeAddress = _nomineeAddress;
+		this.memFeeFig = _memFeeFig;
+		this.memFeeWords = _memFeeWords;
+		this.documents = _documents;
+		this.authSigntry = _authSigntry;
+		this.appSign = _appSign;
+		this.memSign = _memSign;
+		this.grntrDet = _grntrDet;
+		this.grntrSign = _grntrSign;
+		this.empSign = _empSign;
+		this.loanList = _loanList;
+		this.paymentList = _paymentList;
+		this.applicantResAddressWithLandmark = _applicantResAddressWithLandmark;
+	}
+
+	public Date getMemDate() {
+		return memDate;
+	}
+
+	public void setMemDate(Date memDate) {
+		this.memDate = memDate;
+	}
+
+	public File getMemImage() {
+		return memImage;
+	}
+
+	public void setMemImage(File memImage) {
+		this.memImage = memImage;
+	}
+
+	public String getApplicantName() {
+		return applicantName;
+	}
+
+	public void setApplicantName(String applicantName) {
+		this.applicantName = applicantName;
+	}
+
+	public Date getApplicantDob() {
+		return applicantDob;
+	}
+
+	public void setApplicantDob(Date applicantDob) {
+		this.applicantDob = applicantDob;
+	}
+
+	public String getApplicantSex() {
+		return applicantSex;
+	}
+
+	public void setApplicantSex(String applicantSex) {
+		this.applicantSex = applicantSex;
+	}
+
+	public String getApplicantFather() {
+		return applicantFather;
+	}
+
+	public void setApplicantFather(String applicantFather) {
+		this.applicantFather = applicantFather;
+	}
+
+	public String getApplicantMother() {
+		return applicantMother;
+	}
+
+	public void setApplicantMother(String applicantMother) {
+		this.applicantMother = applicantMother;
+	}
+
+	public String getApplicantOccupation() {
+		return applicantOccupation;
+	}
+
+	public void setApplicantOccupation(String applicantOccupation) {
+		this.applicantOccupation = applicantOccupation;
+	}
+
+	public String getApplicantResAddressWithLandmark() {
+		return applicantResAddressWithLandmark;
+	}
+
+	public void setApplicantResAddressWithLandmark(String applicantResAddressWithLandmark) {
+		this.applicantResAddressWithLandmark = applicantResAddressWithLandmark;
+	}
+
+	public String getApplicantCity() {
+		return applicantCity;
+	}
+
+	public void setApplicantCity(String applicantCity) {
+		this.applicantCity = applicantCity;
+	}
+
+	public String getApplicantState() {
+		return applicantState;
+	}
+
+	public void setApplicantState(String applicantState) {
+		this.applicantState = applicantState;
+	}
+
+	public Integer getApplicantPin() {
+		return applicantPin;
+	}
+
+	public void setApplicantPin(Integer applicantPin) {
+		this.applicantPin = applicantPin;
+	}
+
+	public String getApplicantPan() {
+		return applicantPan;
+	}
+
+	public void setApplicantPan(String applicantPan) {
+		this.applicantPan = applicantPan;
+	}
+
+	public String getApplicantMobile() {
+		return applicantMobile;
+	}
+
+	public void setApplicantMobile(String applicantMobile) {
+		this.applicantMobile = applicantMobile;
+	}
+
+	public String getNomineeName() {
+		return nomineeName;
+	}
+
+	public void setNomineeName(String nomineeName) {
+		this.nomineeName = nomineeName;
+	}
+
+	public Integer getNomineeAge() {
+		return nomineeAge;
+	}
+
+	public void setNomineeAge(Integer nomineeAge) {
+		this.nomineeAge = nomineeAge;
+	}
+
+	public String getRelnWithNominee() {
+		return relnWithNominee;
+	}
+
+	public void setRelnWithNominee(String relnWithNominee) {
+		this.relnWithNominee = relnWithNominee;
+	}
+
+	public String getNomineeAddress() {
+		return nomineeAddress;
+	}
+
+	public void setNomineeAddress(String nomineeAddress) {
+		this.nomineeAddress = nomineeAddress;
+	}
+
+	public String getMemFeeFig() {
+		return memFeeFig;
+	}
+
+	public void setMemFeeFig(String memFeeFig) {
+		this.memFeeFig = memFeeFig;
+	}
+
+	public String getMemFeeWords() {
+		return memFeeWords;
+	}
+
+	public void setMemFeeWords(String memFeeWords) {
+		this.memFeeWords = memFeeWords;
+	}
+
+	public List<MemberDocs> getDocuments() {
+		return documents;
+	}
+
+	public void setDocuments(List<MemberDocs> documents) {
+		this.documents = documents;
+	}
+
+	public String getAuthSigntry() {
+		return authSigntry;
+	}
+
+	public void setAuthSigntry(String authSigntry) {
+		this.authSigntry = authSigntry;
+	}
+
+	public String getAppSign() {
+		return appSign;
+	}
+
+	public void setAppSign(String appSign) {
+		this.appSign = appSign;
+	}
+
+	public File getMemSign() {
+		return memSign;
+	}
+
+	public void setMemSign(File memSign) {
+		this.memSign = memSign;
+	}
+
+	public String getGrntrDet() {
+		return grntrDet;
+	}
+
+	public void setGrntrDet(String grntrDet) {
+		this.grntrDet = grntrDet;
+	}
+
+	public File getGrntrSign() {
+		return grntrSign;
+	}
+
+	public void setGrntrSign(File grntrSign) {
+		this.grntrSign = grntrSign;
+	}
+
+	public File getEmpSign() {
+		return empSign;
+	}
+
+	public void setEmpSign(File empSign) {
+		this.empSign = empSign;
+	}
+
+	public List<Loan> getLoanList() {
+		return loanList;
+	}
+
+	public void setLoanList(List<Loan> loanList) {
+		this.loanList = loanList;
+	}
+
+	public List<CustomerLoanAccount> getPaymentList() {
+		return paymentList;
+	}
+
+	public void setPaymentList(List<CustomerLoanAccount> paymentList) {
+		this.paymentList = paymentList;
+	}	
+}

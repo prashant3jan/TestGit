@@ -1,0 +1,143 @@
+package com.struts2.action;
+
+import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+
+import com.opensymphony.xwork2.ActionSupport;
+
+
+public class UploadAction extends ActionSupport {
+    private static final long serialVersionUID = 1L;
+    private UploadManager uploadManager;
+    private Installment installmentBean;
+    private CustomerPaymentDetails custPmtDetBean;
+	private File fileUpload;
+	private int installId;
+	private String fileUploadContentType;
+    private String fileUploadFileName;
+    private String loanAccno;
+	private List<Installment> installmentList  = new ArrayList<Installment>();
+	private List<CustomerPaymentDetails> paymentList =  new ArrayList<CustomerPaymentDetails>();
+  
+	public UploadAction(){
+    	uploadManager = new UploadManager();
+    }
+
+	public String execute(){
+		paymentList = uploadManager.getPaymentList();
+		return "success";
+	}
+
+	public String excelFileUpload() throws Exception{
+		try{
+			String excelFilePath=getText("upload.file.path") + fileUploadFileName;
+		uploadManager.excelFileUpload(excelFilePath, fileUpload);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		paymentList = uploadManager.getPaymentList();
+		return "success";
+		
+	}
+       
+    public String deleteCustInstall(){
+    	try{
+    		System.out.println("installId"+installId);
+    	uploadManager.deleteCustInstallmnt(installId);
+    	System.out.println("delete successful");
+    	}catch(Exception e){
+    		e.printStackTrace();
+    	}
+    	installmentList = uploadManager.getInstallmentList();
+    	return "success";
+    }
+    
+    public  String getInstllDet(){
+    	System.out.println("loanAccno"+loanAccno);
+    	installmentList = uploadManager.getInstallmentList(loanAccno);
+    	return "success";
+    }
+    
+    public String saveIndivInstlmnt(){
+    	uploadManager.saveIndivInstlmnt(installmentBean,custPmtDetBean);
+    	installmentList = uploadManager.getInstallmentList();
+    	return "success";
+    }
+    
+	public Installment getInstallmentBean() {
+		return installmentBean;
+	}
+
+	public void setInstallmentBean(Installment installmentBean) {
+		this.installmentBean = installmentBean;
+	}
+    
+	public int getInstallId() {
+		return installId;
+	}
+
+	public void setInstallId(int installId) {
+		this.installId = installId;
+	}
+	
+	public File getFileUpload() {
+		return fileUpload;
+	}
+	public void setFileUpload(File fileUpload) {
+		this.fileUpload = fileUpload;
+	}
+	public String getFileUploadContentType() {
+		return fileUploadContentType;
+	}
+	public void setFileUploadContentType(String fileUploadContentType) {
+		this.fileUploadContentType = fileUploadContentType;
+	}
+	public String getFileUploadFileName() {
+		return fileUploadFileName;
+	}
+	public void setFileUploadFileName(String fileUploadFileName) {
+		this.fileUploadFileName = fileUploadFileName;
+	}
+
+	public List<CustomerPaymentDetails> getPaymentList() {
+		return paymentList;
+	}
+
+	public void setPaymentList(List<CustomerPaymentDetails> paymentList) {
+		this.paymentList = paymentList;
+	}
+
+    public List<Installment> getInstallmentList() {
+		return installmentList;
+	}
+
+	public void setInstallmentList(List<Installment> installmentList) {
+		this.installmentList = installmentList;
+	}
+  
+    public String getLoanAccno() {
+		return loanAccno;
+	}
+
+	public void setLoanAccno(String loanAccno) {
+		this.loanAccno = loanAccno;
+	}
+
+	public CustomerPaymentDetails getCustPmtDetBean() {
+		return custPmtDetBean;
+	}
+
+	public void setCustPmtDetBean(CustomerPaymentDetails custPmtDetBean) {
+		this.custPmtDetBean = custPmtDetBean;
+	}
+
+	
+}

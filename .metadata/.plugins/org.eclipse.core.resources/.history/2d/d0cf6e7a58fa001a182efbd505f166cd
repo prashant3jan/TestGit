@@ -1,0 +1,16 @@
+<%@taglib uri="/struts-tags" prefix="s"%><%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+
+<s:actionerror/>
+<s:form action="addPassBookDet" method="post" enctype="multipart/form-data" theme="simple" >
+<div class="container">
+	<div class="leftbox"> Loan Account No <s:textfield name="debtorPbkBean.loanAccno" /></div>
+	<div class="rightbox"><s:submit value="Get Details" /></div>
+</div>
+<div id="box4" >
+<s:bean name="com.struts2.action.DebtorPassbook" var="personBean" />
+<s:property value="#personBean.name" />
+</div>
+</s:form>
+

@@ -1,0 +1,702 @@
+#!/usr/bin/perl 
+# -----------------------------------------------------------------------------
+# Project: OpenGTS - Open GPS Tracking System
+# URL    : http://www.opengts.org
+# File   : psjava
+# -----------------------------------------------------------------------------
+# Description:
+#   'psjava' is a command-line tool for displaying all Java processes.
+#   - Self-contained with no dependencies on any GTS libs/modules.
+#   - Runs on Linux, MacOS.
+# -----------------------------------------------------------------------------
+#use DateTime::Format::Strptime;
+
+# --- version
+$VERSION   = "2.2.1";
+
+# --- constants
+$true      = 1;
+$false     = 0;
+
+# --- OS
+$UNAME_OS  = `uname -s`; chomp $UNAME_OS;
+
+# --- '-m2m' separator
+$M2M_SEP   = "|"; # split($M2M_SEP, $RCD)
+
+# --- commands
+$cmd_ps    = &findCmd("ps");
+$cmd_grep  = &findCmd("grep");
+$cmd_kill  = &findCmd("kill"); 
+$cmd_sort  = &findCmd("sort");
+$cmd_lsof  = &findCmd("lsof");
+$cmd_date  = &findCmd("date");
+$cmd_false = &findCmd("false");
+$cmd_sed   = &findCmd("sed");
+$cmd_echo  = &findCmd("echo");
+
+# --- options
+use Getopt::Long;
+%argctl = (
+   #"main"      => \$opt_main,
+    "sub"       => \$opt_sub,
+    "sub_"      => \$opt_AMBIGUOUS,
+    "class:s"   => \$opt_class,
+    "jar:s"     => \$opt_jar,
+    "args"      => \$opt_args,
+    "args_"     => \$opt_AMBIGUOUS,
+    "noargs"    => \$opt_noargs,
+    "na"        => \$opt_noargs,
+    "jaronly"   => \$opt_jaronly,
+    "dcsonly"   => \$opt_jaronly,
+    "dcs"       => \$opt_jaronly,
+    "ports"     => \$opt_ports,
+    "ports_"    => \$opt_AMBIGUOUS,
+    "stime"     => \$opt_startTime,
+    "stime_"    => \$opt_AMBIGUOUS,
+    "etime"     => \$opt_elapseTime,
+    "etime_"    => \$opt_AMBIGUOUS,
+    "memory"    => \$opt_memory,
+    "home"      => \$opt_gtsHome,
+    "context"   => \$opt_context,
+    "gtsHome"   => \$opt_gtsHome,
+    "kill:s"    => \$opt_kill,
+    "kill_"     => \$opt_AMBIGUOUS,
+    "quiet"     => \$opt_quiet,
+    "noheader"  => \$opt_noheader,
+    "nh"        => \$opt_noheader,
+    "m2m"       => \$opt_m2m,
+    "m2m_"      => \$opt_AMBIGUOUS,
+    "verbose"   => \$opt_verbose,
+    "version"   => \$opt_version,
+    "help"      => \$opt_help,
+    "display:s" => \$opt_display, # - "all", "pid", "user", "name"/"jar"/"class", "args" (not useful)
+);
+$optok = &GetOptions(%argctl);
+if (!$optok || $opt_help) {
+    usage:;
+    print "\n";
+    print "Version: $VERSION\n";
+    print "\n";
+    print "Usage: $0 [OPTIONS]\n";
+    print "Options:\n";
+    print "  -nh               No headers\n";
+    print "  -jaronly          Include only jar file processes in output\n";
+    print "  -dcs              Same as '-jaronly'\n";
+    print "  -args             Show command-line arguments\n";
+    print "  -sub              Include sub-processes/threads (level 2+) in output\n";
+    print "  -c[lass]=<class>  Java class\n";
+    print "  -mem[ory]         Include maximum allocation memory\n";
+    print "  -ports            Include UDP/TCP ports in output\n";
+    print "  -stime            Include process start time in output\n";
+    print "  -etime            Include process elapsed time in output\n";
+    print "  -gtsHome|-home    Include home directory in output\n";
+    print "  -j[ar]=<jar>      Specific JAR file (must include '.jar' extension)\n";
+   #print "  -kill[=<class>]   Kill matching pids for specified class\n";
+    print "  -m2m              no headers, '$M2M_SEP' separated fields\n";
+    print "  -q[uiet]          Don't print anything (for testing exit code)\n";
+    print "  -help             This help\n";
+    print "  -version          Display version\n";
+    print "\n";
+    print "Examples:\n";
+    print "\n";
+    print "  DCS modules, with allocated memory and assigned ports:\n";
+    print "     psjava -dcs -mem -ports\n";
+    print "\n";
+    print "  Java processes, with startup arguments/parameters:\n";
+    print "     psjava -args\n";
+    print "\n";
+    print "  DCS modules, script parsable, with home dir, max alloc memory, and args\n";
+    print "     psjava -m2m -home -mem -args\n";
+    print "\n";
+    exit(1);
+}
+
+# --- version
+if (defined $opt_version) {
+    print "Version: $VERSION\n";
+    exit(0);
+}
+
+# --- class name specified on 'kill' overrides 'class'
+if ((defined $opt_kill) && ($opt_kill ne "")) {
+    $opt_class = $opt_kill;
+    $opt_jar   = &getFileName($opt_kill);
+}
+if ((defined $opt_kill) && !(defined $opt_class)) {
+    if (!(defined $opt_quiet)) {
+        print "'-kill' option requires name of class/jar to kill\n";
+    }
+    exit(1);
+}
+
+# --- "-noargs" specified?
+if (defined $opt_noargs) {
+    undef $opt_args;
+}
+
+# --- "-m2m" specified?
+if (defined $opt_m2m) {
+    $opt_noheader = 1;
+}
+
+# -----------------------------------------------------------------------------
+
+# --- exec command
+# - "e" - select all processes
+# - "H" - show process heirarchy
+# - "o" - order format
+#$PS_OPT = ("$UNAME_OS" eq "Darwin")? "-eo 'user,ppid,pid,command'" : "-eHo 'user,ppid,pid,cmd'";
+$PS_OPT = "";
+$PS_ENV = "export COLUMNS=5000";
+if      ("$UNAME_OS" eq "Darwin") { # Mac
+    # Mac: ps -eo 'user,ppid,pid,command' | grep java
+    $PS_OPT = "-eo 'user,ppid,pid,command'";
+} elsif ("$UNAME_OS" eq "HP-UX") {  # HP-UX
+    $PS_OPT = "-eHxo 'user,ppid,pid,comm'";
+    $PS_ENV = "$PS_ENV; export UNIX_STD=2003";
+} else {
+    $PS_OPT = "-eHo 'user,ppid,pid,cmd'";
+}
+$GREP_ARG="-e java -e rtl_433"; # -- "rtl_433" special case
+$PS_CMD = "( $PS_ENV; $cmd_ps $PS_OPT | $cmd_grep $GREP_ARG )"; # | $cmd_sort --key=1,20 )"; 
+if (defined $opt_verbose) {
+    print "Command: $PS_CMD\n";
+}
+@RCDS = split('\n', `$PS_CMD`);
+
+# --- header
+if (!(defined $opt_quiet) && !(defined $opt_display) && !(defined $opt_noheader)) {
+    print "\n";
+    print "  PID  Parent  L User     Java class/jar\n";
+    print "------ ------  - -------- ------------------------------------------------------------\n";
+}
+
+# --- display 
+$FOUND = 0;
+$KILLED = 0;
+@PID_TREE = ();
+$PID_LEVEL = 0;
+foreach ( @RCDS ) {
+    my $trace = (defined $opt_verbose)? $true : $false;
+
+    # --- parse
+    my ($USER,$PPID,$PID,$CMD,$ARGS) = &parseRcd($_);
+
+    # --- 'root' user?
+    if ($USER eq "root") {
+        $USER = "*ROOT*";
+    }
+
+    # --- Java command?
+    if (($CMD ne "java") && !($CMD =~ /\/java$/) && !($CMD =~ /\/rtl_433$/)) { # -- "rtl_433" special case
+        if (!(defined $opt_quiet)) {
+            print "Rejecting: $_ ...\n" if $trace;
+        }
+        next; 
+    }
+    #print "ARGS=$_\n";
+    my $PPI = 0;
+
+    # - find parent pid (this assumes that the PIDs are appropriately sorted - parents arrive first)
+    my $PPID_ndx = -1;
+    for ($PPI = 0; $PPI < $PID_LEVEL; $PPI++) {
+        if ($PPID eq $PID_TREE[$PPI]) {
+            $PPID_ndx = $PPI;
+            last;
+        }
+    }
+    if ($PPID_ndx >= 0) {
+        # - parent PID was found
+        @PID_TREE  = @PID_TREE[0..$PPID_ndx]; # - trim tree
+        $PID_LEVEL = $PPID_ndx + 1;
+    } else {
+        # - no parent PID
+        @PID_TREE  = (); # - clear tree
+        $PID_LEVEL = 0;
+    }
+
+    # - push this pid onto the tree
+    push @PID_TREE, $PID;
+    $PID_LEVEL++;
+
+    # - skip over java command arguments to find class name
+    my $IsJAR = $false;
+    my @J = split(' ', $ARGS);
+    my $TOMCAT_HOME = ""; # $CATALINA_HOME
+    my $MEMORY = "";
+    my $I = 0;
+    if ($CMD =~ /\/rtl_433$/) { # -- "rtl_433" special case
+        @J = split(' ', $CMD." ".$ARGS);
+        $PID_LEVEL = 1;
+    } else {
+        while ($I < scalar(@J)) {
+            my $F = $J[$I];
+            # - classpath
+            if (($F eq "-cp") || ($F eq "-classpath")) {
+                $I += 2;
+                next;
+            }
+            # - jar
+            if ($F eq "-jar") {
+                $IsJAR = $true;
+                $I += 1;
+                next;
+            }
+            # - '-Dcatalina.home' argument (Tomcat)
+            if ($F =~ /^-Dcatalina\.home/) {
+                my @CATHOME = split('=', $F);
+                if (1 < scalar(@CATHOME)) { # (scalar(@CATHOME) > 1)
+                    $TOMCAT_HOME = $CATHOME[1];
+                }
+                $I += 1;
+                next;
+            }
+            # - '-Xmx####' memory
+            if ($F =~ /^-Xmx/) {
+                $MEMORY = $F;
+                $I += 1;
+                next;
+            }
+            # - '-' argument
+            if ($F =~ /^-/) {
+                $I += 1;
+                next;
+            }
+            # - found class/jar
+            last;
+        }
+    }
+
+    # - jar only?
+    if ((defined $opt_jaronly) && ($IsJAR ne $true)) {
+        # - skip to next class/jar
+        if (!(defined $opt_quiet)) {
+            print "Not a Jar: $_ ...\n" if $trace;
+        }
+        next; 
+    }
+
+    # - class name (or JAR file name)
+    my $CLASS = ($I < scalar(@J))? $J[$I++] : "?";
+    if (($CLASS eq "?") && ($ARGS =~ /com\.sun\.aas\./)) {
+        # - this is necessary because the java command-line is truncated at 4K, the max
+        # - length, and the java class is therefore not able to be parsed.
+        $CLASS = "(SUNWappserver)"; # - "com.sun.enterprise.cli.framework.CLIMain"
+    }
+    # - check class name
+    if ((defined $opt_class) && ($opt_class ne $CLASS)) {
+        # - skip to next class
+        if (!(defined $opt_quiet)) {
+            print "Skipping(class): $_ ...\n" if $trace;
+        }
+        next; 
+    }
+    # - check jar file
+    if ((defined $opt_jar) && ($opt_jar ne &getFileName(${CLASS}))) {
+        # - skip to next class
+        if (!(defined $opt_quiet)) {
+            print "Skipping(jar): $_ ...\n" if $trace;
+        }
+        next; 
+    }
+
+    # -- DCS name
+    my $DCS_NAME = "";
+    if ($CLASS =~ /\.jar$/) {
+        $DCS_NAME = &getFileName($CLASS);
+        $DCS_NAME =~ s/\.jar$//;
+    } elsif ($CLASS eq "org.apache.catalina.startup.Bootstrap") {
+        $DCS_NAME = "Tomcat";
+    } elsif ($IsJar ne $true) { # (!$IsJar)
+        $DCS_NAME = $CLASS;
+        $DCS_NAME =~ s/^(.*)\.(.*)$/$2/;
+    } else {
+        $DCS_NAME = "?";
+    }
+
+    # -- scan other Java arvuments
+    my $DCS_CONTEXT = "";
+    my $DCS_CRONTAB = "";
+    my $N = $I;
+    while ($N < scalar(@J)) {
+        my $F = $J[$N];
+        # - "rtcontext.name"
+        if ($F =~ /^-rtcontext\.name/) {
+            my @CTX = split('=', $F);
+            if (1 < scalar(@CTX)) { # (scalar(@CTX) > 1)
+                $DCS_CONTEXT = $CTX[1];
+            }
+            $N += 1;
+            next; # continue;
+        }
+        # - cron "crontab" file
+        if ($F =~ /^-crontab/) {
+            my @CRONV = split('=', $F);
+            if (1 < scalar(@CRONV)) {
+                $DCS_CRONTAB = $CRONV[1];
+            }
+            $N += 1;
+            next; # continue;
+        }
+        # - otherwise
+        $N += 1;
+        next;
+    }
+
+    # - java class arguments 
+    my $JARGS = "";
+    # - include Tomcat $CATALINA_HOME, if applicable
+    #if ($TOMCAT_HOME ne "") {
+    #    $JARGS = (defined $opt_m2m)? $TOMCAT_HOME : "[$TOMCAT_HOME] ";
+    #}
+    # - include other args
+    if (defined $opt_args) {
+        # - display all class arguments
+        my @A = ($I < scalar(@J))? @J[$I..(scalar @J)] : ();
+        $JARGS = &strTrim(join(' ',@A));
+    } else {
+        # - display DCS context name, if applicable
+        #if ($DCS_CONTEXT ne "") {
+        #    $JARGS = "[$DCS_CONTEXT] ";
+        #}
+    }
+
+    # - ports
+    my $PORTS = "";
+    if (defined $opt_ports) {
+        # - lsof -Pan -p $PID -i | grep -e TCP -e UDP | grep -v ':3306 '
+        # - ==> java 96394 user 39u IPv6 0x9bae0ff1a53329fb 0t0 TCP 192.129.100.193:37525 (LISTEN)
+        my $PC_CMD = "( $cmd_lsof -Pan -p $PID -i | $cmd_grep -e TCP -e UDP | $cmd_grep -v ':3306 ' )";
+        my @PC_RCDS = split('\n', `$PC_CMD`);
+        my $UDP = "";
+        my $TCP = "";
+        foreach ( @PC_RCDS ) {
+            my @R     = split(' ', $_);
+            my $PROTO = $R[7];
+            my @IPP   = split(':',$R[8]); # eg. "*:12345"
+            my $PORT  = $IPP[1];
+            if      ($PROTO eq "TCP") {
+                if ($TCP ne "") { $TCP = "${TCP},"; }
+                $TCP = "${TCP}$PORT";
+            } elsif ($PROTO eq "UDP") {
+                if ($UDP ne "") { $UDP = "${UDP},"; }
+                $UDP = "${UDP}$PORT";
+            }
+        }
+        if ($TCP ne "") {
+            $PORTS = "${PORTS}TCP:$TCP";
+        }
+        if ($UDP ne "") {
+            if ($PORTS ne "") { $PORTS = "${PORTS} "; }
+            $PORTS = "${PORTS}UDP:$UDP";
+        }
+    }
+
+    # - start time
+    my $STIME = "";
+    if (defined $opt_startTime) {
+        # - ps -p $PID -o lstart | grep -v STARTED
+        # - ==> Sat May 12 22:31:21 2018  [format: "%c" or "%a %b %d %H:%M:%S %Y"]
+        # - Mac:   date -jn -f "%c" "Sat May 12 22:31:21 2018" +"%Y/%m/%d,%T,%Z"
+        # - Linux: date -d "Sat May 12 22:31:21 2018" +"%Y/%m/%d,%H:%M:%S,%Z"
+        my $PST_CMD  = "( $cmd_ps -p $PID -o lstart= | $cmd_grep -v 'STARTED' )";
+        my @PST_RCDS = split('\n', `$PST_CMD`); # - should be only 1 record
+        my $PST_FMT  = "%Y/%m/%d,%T,%Z"; # "%c %Z"
+        foreach ( @PST_RCDS ) {
+            my $cDT = &strTrim("$_"); # "Sat May 12 22:31:21 2018"
+            my $nDT = "";
+            #if ("$UNAME_OS" eq "Darwin") { # Mac
+            #    # - Mac
+            #    $nDT = `$cmd_date -jn -f "%c" "$cDT" +"$PST_FMT" 2>/dev/null`;  # discard stderr
+            #} elsif ("$UNAME_OS" eq "Linux") {
+            #    # - Linux
+            #    $nDT = `$cmd_date -d "$cDT" +"$PST_FMT" 2>/dev/null`;  # discard stderr
+            #} else {
+            #    # - HP-UX, etc?
+            #    $nDT = "";
+            #}
+            # ---
+            #my $strp = DateTime::Format::Strptime->new(
+            #    pattern   => '%c',
+            #    locale    => 'en_US',
+            #    #time_zone => 'US/Mountain',
+            #    on_error  => 'undef'
+            #);
+            #my $dt = $strp->parse_datetime($cDT);
+            #print "Date: $dt\n";
+            # ---
+            if (($nDT ne "") && (($? >> 8) == 0)) { # note: ($? == -1) if failed
+                $nDT = &strTrim($nDT);
+                $STIME = $nDT; # success
+            } else {
+                $STIME = $cDT; # failed
+            }
+            last; # break (should be only 1 record)
+        }
+    }
+
+    # - elapsed time
+    my $ETIME = "";
+    if (defined $opt_elapseTime) {
+        # - ps -p $PID -o estart | grep -v ELAPSED
+        # - ==> 3-09:00:30
+        my $PST_CMD  = "( $cmd_ps -p $PID -o etime= | $cmd_grep -v 'ELAPSED' )";
+        my @PST_RCDS = split('\n', `$PST_CMD`); # - should be only 1 record
+        foreach ( @PST_RCDS ) {
+            my $cET = &strTrim("$_"); # "3-09:00:30"
+            $ETIME = $cET;
+            last; # break (should be only 1 record)
+        }
+    }
+
+    # - home
+    my $HOME = "";
+    if (defined $opt_gtsHome) {
+        if ($IsJAR eq $true) {
+            # - "/usr/local/GTS_2.6.7-B99/build/lib/calamp.jar" ==> "/usr/local/GTS_2.6.7-B99"
+            my $SED_CMD  = "( $cmd_echo $CLASS | $cmd_sed 's:/build/.*\$::' )";
+            my @SED_RCDS = split('\n', `$SED_CMD`); # - should be only 1 record
+            foreach ( @SED_RCDS ) {
+                my $cHM = &strTrim("$_"); # "/usr/local/GT_HOME"
+                $HOME = $cHM ;
+                last; # break (should be only 1 record)
+            }
+        } elsif ($TOMCAT_HOME ne "") {
+            $HOME = $TOMCAT_HOME;
+        } else {
+            $HOME = "?"; # "na";
+        }
+    }
+
+    # - print
+    if (!(defined $opt_quiet) && ((defined $opt_sub) || ($PID_LEVEL <= 1))) {
+        my $U  = $USER;
+        my $PP = $PPID;
+        my $P  = $PID;
+        my $L  = $PID_LEVEL;
+        my $C  = $CLASS;
+        # -- Tomcat special case
+        if (($C eq "org.apache.catalina.startup.Bootstrap") && ("$TOMCAT_HOME" ne "")) {
+            $C = "$TOMCAT_HOME"; # "[Tomcat]$TOMCAT_HOME"
+        }
+        # -- context
+        #if ($DCS_CONTEXT ne "") {
+        #    $C = "[$DCS_CONTEXT]$C";
+        #}
+        # -- "cron" special case
+        if (!(defined $opt_m2m) && ($C =~ /\/cron.jar/) && ($DCS_CRONTAB ne "")) {
+            $C = "$C($DCS_CRONTAB)";
+        }
+        # --
+        if (!(defined $opt_display) || ($opt_display eq "all")) {
+            my $i;
+            while (length($U ) <  8) { $U  = "$U " ; } # - align left
+            while (length($P ) <  6) { $P  = " $P" ; } # - align right
+            while (length($PP) <  6) { $PP = " $PP"; } # - align right
+            for ($i = 1; $i < $L; $i++) { $C = "  $C"; } # - indent
+            #while (length($C) < 40) { $C = "$C "; } # - align left
+            # -- populate extra output
+            my $XTRA = "";
+            if (defined $opt_context) {
+                my $CTX = ($DCS_CONTEXT ne "")? $DCS_CONTEXT : $DCS_NAME;
+                if (defined $opt_m2m) {
+                    $XTRA = ($XTRA ne "")? "$XTRA${M2M_SEP}$CTX" : "$CTX";
+                } else {
+                    $XTRA = "$XTRA [$CTX]";
+                }
+            }
+            if ((defined $opt_gtsHome) && ($HOME ne "")) { # GTS_HOME
+                if (defined $opt_m2m) {
+                    $XTRA = ($XTRA ne "")? "$XTRA${M2M_SEP}$HOME" : "$HOME";
+                } else {
+                    $XTRA = "$XTRA [$HOME]";
+                }
+            }
+            if ((defined $opt_memory) && ($MEMORY ne "")) { # memory
+                if (defined $opt_m2m) {
+                    $XTRA = ($XTRA ne "")? "$XTRA${M2M_SEP}$MEMORY" : "$MEMORY";
+                } else {
+                    $XTRA = "$XTRA [$MEMORY]";
+                }
+            }
+            if ((defined $opt_ports) && ($PORTS ne "")) { # ports
+                if (defined $opt_m2m) {
+                    $XTRA = ($XTRA ne "")? "$XTRA${M2M_SEP}$PORTS" : "$PORTS";
+                } else {
+                    $XTRA = "$XTRA [$PORTS]";
+                }
+            }
+            if ((defined $opt_startTime) && ($STIME ne "")) { # start-time
+                if (defined $opt_m2m) {
+                    $XTRA = ($XTRA ne "")? "$XTRA${M2M_SEP}$STIME" : "$STIME";
+                } else {
+                    $XTRA = "$XTRA [$STIME]";
+                }
+            }
+            if ((defined $opt_elapseTime) && ($ETIME ne "")) { # elapsed-time
+                if (defined $opt_m2m) {
+                    $XTRA = ($XTRA ne "")? "$XTRA${M2M_SEP}$ETIME" : "$ETIME";
+                } else {
+                    $XTRA = "$XTRA [$ETIME]";
+                }
+            }
+            if ($JARGS ne "") { # java arguments/parameters
+                if (defined $opt_m2m) {
+                    $XTRA = ($XTRA ne "")? "$XTRA${M2M_SEP}$JARGS" : "$JARGS";
+                } else {
+                    $XTRA = "$XTRA $JARGS";
+                }
+            }
+            # -- print
+            if (defined $opt_m2m) {
+                #print "$P|$PP|$L|$U|$C|$XTRA\n";
+                print &strTrim($P).$M2M_SEP.&strTrim($PP).$M2M_SEP.&strTrim($L).$M2M_SEP.&strTrim($U).$M2M_SEP.&strTrim($C).$M2M_SEP.&strTrim($XTRA)."\n";
+            } else {
+                #print "$P($PP) $L $U $C $XTRA\n";
+                print "$P $PP  $L $U $C $XTRA\n";
+            }
+        } elsif ($opt_display eq "pid") {
+            print "$PID\n";
+        } elsif ($opt_display eq "user") {
+            print "$USER\n";
+        } elsif ($opt_display eq "name") {
+            if (defined $opt_args) {
+                print "$CLASS $JARGS\n";
+            } else {
+                print "$CLASS\n";
+            }
+        } elsif (($opt_display eq "jar") && ($IsJAR eq $true)) {
+            if (defined $opt_args) {
+                print "$CLASS $JARGS\n";
+            } else {
+                print "$CLASS\n";
+            }
+        } elsif (($opt_display eq "class") && ($IsJAR ne $true)) {
+            if (defined $opt_args) {
+                print "$CLASS $JARGS\n";
+            } else {
+                print "$CLASS\n";
+            }
+        } elsif ($opt_display eq "args") {
+            print "$JARGS\n";
+        }
+    } else {
+        print "Not printing: $_ ...\n" if $trace;
+    }
+    
+    # - kill
+    if (defined $opt_kill) {
+        if (defined $opt_class) {
+            if (!(defined $opt_quiet)) { 
+                print "Killing pid $PID ...\n";
+            }
+            my $KILL_CMD = "$cmd_kill -9 $PID";
+            $KILLED++;
+            &sysCmd($KILL_CMD);
+        } else {
+            if (!(defined $opt_quiet)) { 
+                print "'-kill' option requires name of class/jar to kill\n";
+                exit(1);
+            }
+        }
+    }
+
+    # - done with this command
+    $FOUND++;
+    # next;
+
+} # foreach ( @RCDS )
+
+# -- display number of items killed
+if (defined $opt_kill) {
+    print "\n";
+    if      ($KILLED <= 0 ) {
+        print "No processes killed.\n";
+    } elsif ($KILLED == 1) {
+        print "$KILLED process killed.\n";
+    } else {
+        print "$KILLED processed killed.\n";
+    }
+}
+
+# -- final blank line
+if (!(defined $opt_quiet) && !(defined $opt_display) && !(defined $opt_m2m)) {
+    print "\n";
+}
+
+# --- return status
+exit(($FOUND > 0)? 0 : 1);
+
+# -----------------------------------------------------------------------------
+
+sub sysCmd(\$\$) {
+    my ($cmd, $verbose) = @_;
+    if ($verbose) { print "$cmd\n"; }
+    my $rtn = system("$cmd") / 256;
+    return $rtn;
+}
+
+sub findCmd(\$) {
+    my ($cmdLine) = @_;
+    if ($cmdLine =~ /^\//) {
+        return $cmdLine;
+    } else {
+        my @CPATH = (
+            "/sbin",
+            "/bin",
+            "/usr/bin",
+            "/usr/local/bin",
+        );
+        my @cmdArgs = split(' ', $cmdLine);
+        my $cmd = $cmdArgs[0];
+        foreach ( @CPATH ) {
+            if (-x "$_/$cmd") {
+                $cmdArgs[0] = "$_/$cmd";
+                return join(' ', @cmdArgs);
+            }
+        }
+        #&println("Not found: $cmd");
+        return $cmdLine;
+    }
+}
+
+sub findParent(\$\$) {
+    my ($ARGPID, @RCDS) = @_;
+    my $I;
+    for ($I = 0; $I < scalar(@RCDS); $I++) {
+        my ($USER,$PPID,$PID,$CMD,$ARGS) = &parseRcd($RCD[$I]);
+        if ($ARGPID eq $PID) {
+            return $I;
+        }
+    }
+    return "";
+}
+
+sub parseRcd(\$) {
+    my ($RCD) = @_;
+    my @R = split(' ', $_, 5);
+    my $USER  = $R[0];
+    my $PPID  = $R[1]; # - Parent PID
+    my $PID   = $R[2]; # - PID
+    my $CMD   = $R[3];
+    my $ARGS  = $R[4];
+    return $USER,$PPID,$PID,$CMD,$ARGS;
+}
+
+sub getFileName(\$) {
+    my ($x) = @_;
+    $x =~ s/^(.*)\/(.*)$/$2/;
+    return $x;
+}
+
+sub strTrim(\$) {
+    my ($s) = @_;
+    #$s =~ s/^\s+//; # trim leading spaces
+    #$s =~ s/\s+$//; # trim trailing spaces
+    $s =~ s/^\s+|\s+$//g; # trim leading/trailing spaces
+    return $s;
+}
+
+# -----------------------------------------------------------------------------
+

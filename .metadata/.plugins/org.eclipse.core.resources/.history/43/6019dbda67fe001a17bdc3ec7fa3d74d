@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>   
+  
+<!DOCTYPE tiles-definitions PUBLIC   
+"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"  
+ "http://localhost:8080/ProjectTNL/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+	
+	<definition name="baseLayoutLogin" template="/baseLayoutLogin.jsp">
+		<put-attribute name="title" value="Template" />
+		<put-attribute name="header" value="/header.jsp" />
+		<put-attribute name="body" value="/body.jsp" />
+		<put-attribute name="footer" value="/footer.jsp" />
+	</definition>
+
+	<definition name="index" extends="baseLayoutLogin">
+		<put-attribute name="title" value="Please enter you login credentials" />
+		<put-attribute name="body" value="/index.jsp" />
+	</definition>
+
+	<definition name="baseLayoutMem" template="/baseLayoutMem.jsp">
+		<put-attribute name="title" value="Template" />
+		<put-attribute name="header" value="/header.jsp" />
+		<put-attribute name="body" value="/body.jsp" />
+		<put-attribute name="footer" value="/footer.jsp" />
+	</definition>
+
+	<definition name="dispMemForm" extends="baseLayoutMem">
+		<put-attribute name="title" value="Enter Member Details" />
+		<put-attribute name="body" value="/memAppForm.jsp" />
+	</definition>
+
+	<definition name="addMemDet" extends="baseLayoutMem">
+		<put-attribute name="title" value="Enter Member Details" />
+		<put-attribute name="body" value="/memAppForm.jsp" />
+	</definition>
+
+	<definition name="baseLayoutBankPbk" template="/baseLayoutBankPbk.jsp">
+		<put-attribute name="title" value="Template" />
+		<put-attribute name="header" value="/header.jsp" />
+		<put-attribute name="body" value="/body.jsp" />
+		<put-attribute name="footer" value="/footer.jsp" />
+	</definition>
+
+	<definition name="displayBankPbkPage" extends="baseLayoutBankPbk">
+		<put-attribute name="title" value="Enter Passbook Details" />
+		<put-attribute name="body" value="/enter_bank_pbk_details.jsp" />
+	</definition>
+
+	<definition name="baseLayoutWelcome" template="/baseLayoutWelcome.jsp">
+		<put-attribute name="title" value="Template" />
+		<put-attribute name="header" value="/header.jsp" />
+		<put-attribute name="menu" value="/menu.jsp" />
+		<put-attribute name="body" value="/body.jsp" />
+		<put-attribute name="footer" value="/footer.jsp" />
+	</definition>
+
+	<definition name="welcome" extends="baseLayoutWelcome">
+		<put-attribute name="title" value="Welcome" />
+		<put-attribute name="body" value="/welcome.jsp" />
+	</definition>
+
+	<definition name="login-error" template="/baseLayoutLoan.jsp">
+		<put-attribute name="title" value="Login Error" />
+		<put-attribute name="body" value="/login-error.jsp" />
+	</definition>
+
+	<definition name="baseLayoutLoan" template="/baseLayoutLoan.jsp">
+		<put-attribute name="title" value="Template" />
+		<put-attribute name="header" value="/header.jsp" />
+		<put-attribute name="body" value="/body.jsp" />
+		<put-attribute name="footer" value="/footer.jsp" />
+	</definition>
+
+	<definition name="dispLoanForm" extends="baseLayoutLoan">
+		<put-attribute name="title" value="Enter Loan Details" />
+		<put-attribute name="body" value="/loanAppForm.jsp" />
+	</definition>
+
+	<definition name="addLoanDet" extends="baseLayoutLoan">
+		<put-attribute name="title" value="Enter Loan Details" />
+		<put-attribute name="body" value="/loanAppForm.jsp" />
+	</definition>
+
+	<definition name="baseLayoutUpload" template="/baseLayoutUpload.jsp">
+		<put-attribute name="title" value="Template" />
+		<put-attribute name="header" value="/header.jsp" />
+		<put-attribute name="body" value="/body.jsp" />
+		<put-attribute name="footer" value="/footer.jsp" />
+	</definition>
+	
+	<definition name="displayUploadPage" extends="baseLayoutUpload">
+		<put-attribute name="title" value="Upload Member Payments" />
+		<put-attribute name="body" value="/upload_payment_excel.jsp" />
+	</definition>
+
+	<definition name="baseLayoutDebtorPbk" template="/baseLayoutDebtorPbk.jsp">
+		<put-attribute name="title" value="Template" />
+		<put-attribute name="header" value="/header.jsp" />
+		<put-attribute name="body" value="/body.jsp" />
+		<put-attribute name="footer" value="/footer.jsp" />
+	</definition>
+
+	<definition name="displayDebtorPbkPage" extends="baseLayoutDebtorPbk">
+		<put-attribute name="title" value="Enter Passbook Details" />
+		<put-attribute name="body" value="/displayDebtorPbkPage.jsp" />
+	</definition>
+
+	<definition name="dispPmtDet" extends="baseLayoutUpload">
+		<put-attribute name="title" value="Display Payment Details" />
+		<put-attribute name="body" value="/display_pmt_det.jsp" />
+	</definition>
+	
+	<definition name="baseLayoutInputMem" template="/baseLayoutInputMem.jsp">
+		<put-attribute name="title" value="Template" />
+		<put-attribute name="header" value="/header.jsp" />
+		<put-attribute name="body" value="/body.jsp" />
+		<put-attribute name="footer" value="/footer.jsp" />
+	</definition>
+
+	<definition name="dispMemInputForm" extends="baseLayoutInputMem">
+		<put-attribute name="title" value="Enter Member Details" />
+		<put-attribute name="body" value="/memAppInputForm.jsp" />
+	</definition>
+	
+	<definition name="baseLayoutPromissaryNt" template="/baseLayoutPromissaryNt.jsp">
+		<put-attribute name="title" value="Template" />
+		<put-attribute name="header" value="/header.jsp" />
+		<put-attribute name="body" value="/body.jsp" />
+		<put-attribute name="footer" value="/footer.jsp" />
+	</definition>
+	<definition name="dispPromissoryNote" extends="baseLayoutPromissaryNt">
+		<put-attribute name="title" value="Enter Promissary Note Details" />
+		<put-attribute name="body" value="/promissaryNote.jsp" />
+	</definition>
+	<definition name="baseLayoutThumbImprssn" template="/baseLayoutThumbImprssn.jsp">
+		<put-attribute name="title" value="Template" />
+		<put-attribute name="header" value="/header.jsp" />
+		<put-attribute name="body" value="/body.jsp" />
+		<put-attribute name="footer" value="/footer.jsp" />
+	</definition>
+	<definition name="dispPromissoryNote" extends="baseLayoutPromissaryNt">
+		<put-attribute name="title" value="Enter Promissary Note Details" />
+		<put-attribute name="body" value="/promissaryNote.jsp" />
+	</definition>
+	
+</tiles-definitions>  
